@@ -1,5 +1,17 @@
-# Econ 425 Sentiment Analysis
+# Can be immediately uploaded/linked:
 
-# Capstone
+## Econ 425 Sentiment Analysis
 
-# MemeToaster
+## MacroEcon Final report
+
+## Capstone
+
+## ECON 424 final presentation
+
+## MemeToaster
+
+# Needs Cleaning:
+
+## econ 446 assignment 2
+
+## econ 442 final assignment
