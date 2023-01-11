@@ -5,7 +5,9 @@ You can use the [editor on GitHub](https://github.com/ken-foster/ken-foster.gith
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### Download file test
-<a href="Textblob vs TensorFlow.pdf" download>Download here</a>
+<a href="files/Textblob vs TensorFlow.pdf" download>Textblob vs TensorFlow</a>
+
+<a href="files/Change in the Value of the Associate's Degree.pdf" download>Change in the Value of the Associate's Degree</a>
 
 ### Markdown
 
