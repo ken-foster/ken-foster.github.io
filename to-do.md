@@ -6,13 +6,15 @@ MacroEcon Final report
 
 Capstone
 
-ECON 424 final presentation
+ECON 424 final (presentation)
 
 Kaggle/NCES Cost of Education Data
 
 MemeToaster
 
 # Needs Cleaning:
+
+ECON 424 final (code)
 
 Econ 425 Sentiment Analysis (Code)
 
