@@ -1,19 +1,21 @@
 # Can be immediately uploaded/linked:
 
-## Econ 425 Sentiment Analysis
+Econ 425 Sentiment Analysis (Report)
 
-## MacroEcon Final report
+MacroEcon Final report
 
-## Capstone
+Capstone
 
-## ECON 424 final presentation
+ECON 424 final presentation
 
-## Kaggle/NCES Cost of Education Data
+Kaggle/NCES Cost of Education Data
 
-## MemeToaster
+MemeToaster
 
 # Needs Cleaning:
 
-## econ 446 assignment 2
+Econ 425 Sentiment Analysis (Code)
 
-## econ 442 final assignment
+econ 446 assignment 2
+
+econ 442 final assignment
