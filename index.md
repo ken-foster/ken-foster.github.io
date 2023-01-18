@@ -8,7 +8,7 @@ I'm a recent graduate of the Master's of Quantitative Economics program at UCLA,
 
 # ACADEMIC PROJECTS
 I worked on a ton of interesting and challenging projects in my master’s program. Here’s the ones I’m proudest of:
-- Capstone: Assistance Amounts in Rapid Re-Housing - <a href="files/Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>[Report]</a>
+- **Master's Capstone Project**: Assistance Amounts in Rapid Re-Housing - <a href="files/Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>[Report]</a>
 - Sentiment Analysis: TextBlob vs. TensorFlow - <a href="files/Textblob vs TensorFlow.pdf" download>[Report]</a> <a href="files/Textblob vs TensorFlow.pdf" download>[Code]</a>
 - Labor Economics: The Value of an Associate's Degree after the GFC - <a href="files/Change in the Value of the Associate's Degree - Presentation.pdf" download>[Presentation]</a> <a href="Change in the Value of the Associate's Degree - Code.pdf" download>[Code]</a>
 - Macroeconomic Forecasting: Mock Government Report on the Canadian Economy
@@ -28,7 +28,7 @@ Most recently, I interned with the Audit Analytics team at **Southern California
 I’ve got a pretty interesting and diverse background outside of my work as an analyst. Ask me about my time with…
 - The Milken Institute, an internship where I helped put on their 2021 Global Conference.
 - The U.S. Census Bureau, where I was an enumerator for the 2020 Census. I did this because I wanted to learn, at the most elemental level, how data essential to policy decisions is gathered
-Knott’s Berry Farm, the Southern California theme park. I worked through my undergrad as a technician for their live shows. I love live music, so this was a fabulous way to pay for college.
+- Knott’s Berry Farm, the Southern California theme park. I worked through my undergrad as a technician for their live shows. I love live music, so this was a fabulous way to pay for college.
 
 
 
