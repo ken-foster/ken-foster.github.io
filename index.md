@@ -18,11 +18,13 @@ Before returning to school, I was a data specialist for **People Assisting the H
 - Ensured data we sent to the city of Los Angeles and to the federal Housing and Urban Development office was accurate, so that policy-makers and stakeholders can make sound decisions.
 - Developed my skills in data programming with Python, SQL, and R, to gain better insights into agency spending and client outcome trends.
 - Lead a team of associates for all data reporting and accuracy projects. Examples include ad-hoc report requests, compliance audits, and archive management.
+
 ## Southern California Edison
 Most recently, I interned with the Audit Analytics team at **Southern California Edison**, a public utility company serving 15 million customers. There, I…
 - Revamped methods to detect trends in payments to outside vendors
 - Piloted automated process in Python for near-duplicate detection in invoice documentation, allowing for higher throughput in auditing and alleviating need for custom data parsing
 - Presented process results to direct supervisor and VP of Risk Management, concisely summarizing image and text processing methods, emphasizing effectiveness and efficiency
+
 ## Other
 I’ve got a pretty interesting and diverse background outside of my work as an analyst. Ask me about my time with…
 - The Milken Institute, an internship where I helped put on their 2021 Global Conference.
