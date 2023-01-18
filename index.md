@@ -8,22 +8,23 @@ I'm a recent graduate of the Master's of Quantitative Economics program at UCLA,
 
 # ACADEMIC PROJECTS
 I worked on a ton of interesting and challenging projects in my master’s program. Here’s the ones I’m proudest of:
-- Capstone: Assistance Amounts in Rapid Re-Housing ~ <a href="Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>Report</a>
-- Sentiment Analysis: TextBlob vs. TensorFlow - <a href="files/Textblob vs TensorFlow.pdf" download>Report</a> - <a href="files/Textblob vs TensorFlow.pdf" download>Code</a>
-- Labor Economics: The Value of an Associate's Degree after the GFC | <a href="files/Change in the Value of the Associate's Degree - Presentation.pdf" download>[Presentation]</a> <a href="Change in the Value of the Associate's Degree - Code.pdf" download>[Code]</a>
+- Capstone: Assistance Amounts in Rapid Re-Housing - <a href="files/Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>[Report]</a>
+- Sentiment Analysis: TextBlob vs. TensorFlow - <a href="files/Textblob vs TensorFlow.pdf" download>[Report]</a> - <a href="files/Textblob vs TensorFlow.pdf" download>[Code]</a>
+- Labor Economics: The Value of an Associate's Degree after the GFC - <a href="files/Change in the Value of the Associate's Degree - Presentation.pdf" download>[Presentation]</a> <a href="Change in the Value of the Associate's Degree - Code.pdf" download>[Code]</a>
 - Macroeconomic Forecasting: Mock Government Report on the Canadian Economy
 
 # PROFESSIONAL EXPERIENCE
+## People Assisting The Homeless
 Before returning to school, I was a data specialist for **People Assisting the Homeless**, a homeless services agency in Los Angeles. While I was there, I...
 - Ensured data we sent to the city of Los Angeles and to the federal Housing and Urban Development office was accurate, so that policy-makers and stakeholders can make sound decisions.
 - Developed my skills in data programming with Python, SQL, and R, to gain better insights into agency spending and client outcome trends.
 - Lead a team of associates for all data reporting and accuracy projects. Examples include ad-hoc report requests, compliance audits, and archive management.
-
+## Southern California Edison
 Most recently, I interned with the Audit Analytics team at **Southern California Edison**, a public utility company serving 15 million customers. There, I…
 - Revamped methods to detect trends in payments to outside vendors
 - Piloted automated process in Python for near-duplicate detection in invoice documentation, allowing for higher throughput in auditing and alleviating need for custom data parsing
 - Presented process results to direct supervisor and VP of Risk Management, concisely summarizing image and text processing methods, emphasizing effectiveness and efficiency
-
+## Other
 I’ve got a pretty interesting and diverse background outside of my work as an analyst. Ask me about my time with…
 - The Milken Institute, an internship where I helped put on their 2021 Global Conference.
 - The U.S. Census Bureau, where I was an enumerator for the 2020 Census. I did this because I wanted to learn, at the most elemental level, how data essential to policy decisions is gathered
