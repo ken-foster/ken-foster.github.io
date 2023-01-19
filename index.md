@@ -44,4 +44,4 @@ This is a Discord bot project I started in order to...
 - Connect with my online friends better
 
 ## CONTACT
-If you're looking to fill a position (or just want to talk about the work you see here), you can find me on LinkedIn
+If you're looking to fill a position (or just want to talk about the work you see here), you can find me on [LinkedIn](https://www.linkedin.com/in/kennethbfoster/)
