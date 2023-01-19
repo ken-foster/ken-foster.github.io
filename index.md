@@ -11,7 +11,7 @@ I'm a recent graduate of the Master's of Quantitative Economics program at UCLA,
 ## ACADEMIC PROJECTS
 I worked on a ton of interesting and challenging projects in my master’s program. Here’s some that I’m proud of:
 - **Master's Capstone Project**: Assistance Amounts in Rapid Re-Housing - <a href="files/Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>[Report]</a>
-- Sentiment Analysis: TextBlob vs. TensorFlow - <a href="files/Textblob vs TensorFlow.pdf" download>[Report]</a> <a href="files/Textblob vs TensorFlow.pdf" download>[Code]</a>
+- Sentiment Analysis: TextBlob vs. TensorFlow - <a href="files/Textblob vs TensorFlow.pdf" download>[Report]</a>
 - Labor Economics: The Value of an Associate's Degree after the GFC - <a href="files/Change in the Value of the Associate's Degree - Presentation.pdf" download>[Presentation]</a> <a href="files/Change in the Value of the Associate's Degree - Code.pdf" download>[Code]</a>
 
 ## PROFESSIONAL EXPERIENCE
