@@ -3,10 +3,12 @@ Nice to meet you, I'm
 <img src="files/headshot.jpg" width=200 height=300>
 
 I'm a recent graduate of the Master's of Quantitative Economics program at UCLA, and I'm here to help you with:
-- Data Analytics
+- Data Analytics/Data Science
 - Business Intelligence
 - Statistical Modeling
-- and more
+
+## CONTACT
+If you're looking to fill a position (or just want to talk about the work you see here), you can find me on [LinkedIn](https://www.linkedin.com/in/kennethbfoster/)
 
 ## ACADEMIC PROJECTS
 I worked on a ton of interesting and challenging projects in my master’s program. Here’s some that I’m proud of:
@@ -29,9 +31,9 @@ Most recently, I interned with the Audit Analytics team at **Southern California
 
 ### Other
 I’ve got a pretty interesting and diverse background outside of my work as an analyst. Ask me about my time with…
-- The Milken Institute, an internship where I helped put on their 2021 Global Conference.
-- The U.S. Census Bureau, where I was an enumerator for the 2020 Census. I did this because I wanted to learn, at the most elemental level, how data essential to policy decisions is gathered
-- Knott’s Berry Farm, the Southern California theme park. I worked through my undergrad as a technician for their live shows. I love live music, so this was a fabulous way to pay for college.
+- **The Milken Institute**, an internship where I helped put on their 2021 Global Conference.
+- **The U.S. Census Bureau**, where I was an enumerator for the 2020 Census. I joined because I wanted to learn, at the most elemental level, how data essential to policy decisions is gathered
+- **Knott’s Berry Farm**, the Southern California theme park. I worked through my undergrad as a technician for their live shows. I love live music, so this was a fun way to pay for college.
 
 ## INDEPENDENT PROJECTS
 ### NCES Data Repository
@@ -42,6 +44,3 @@ This is a Discord bot project I started in order to...
 - Learn how to program an application, not just a single script (note: I accomplished this goal)
 - Learn about web hosting, specifically on Amazon Web Services (Did this too. [My bot is currently live!](https://github.com/ken-foster/MemeToaster#readme))
 - Connect with my online friends better
-
-## CONTACT
-If you're looking to fill a position (or just want to talk about the work you see here), you can find me on [LinkedIn](https://www.linkedin.com/in/kennethbfoster/)
