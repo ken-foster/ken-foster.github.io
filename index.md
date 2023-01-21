@@ -40,7 +40,9 @@ I’ve got a pretty interesting and diverse background outside of my work as an 
 The National Center for Education Statistics publishes a wealth of data on education each year, but the tables are nowhere near as convenient or accessible as say, the Census Bureau API. I’m creating a convenient, tabular repository starting with a [Kaggle Dataset](https://www.kaggle.com/datasets/kfoster150/avg-cost-of-undergrad-college-by-state) on the average cost of college.
 
 ### MemeToaster
-This is a Discord bot project I started in order to...
+This is a [Discord bot](https://influencermarketinghub.com/discord-bots/) project I started in order to...
 - Learn how to program an application, not just a single script (note: I accomplished this goal)
 - Learn about web hosting, specifically on Amazon Web Services (Did this too. [My bot is currently live!](https://github.com/ken-foster/MemeToaster#readme))
 - Create something entertaining I could use to bring together my long-distance connections
+
+
