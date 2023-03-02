@@ -1,23 +1,14 @@
-# Can be immediately uploaded/linked:
-
-Econ 425 Sentiment Analysis (Report)
-
-MacroEcon Final report
-
-Capstone
-
-ECON 424 final (presentation)
-
-Kaggle/NCES Cost of Education Data
-
-MemeToaster
-
 # Needs Cleaning:
 
-ECON 424 final (code)
+[ ] ECON 424 final (code)
+- [x] Final code edited
+- [ ] compile as markdown file and upload to site
 
-Econ 425 Sentiment Analysis (Code)
+[ ] Econ 425 Sentiment Analysis (Code)
+- [x] Final version of split code complete
+- [ ] Create version with only one script
+- [ ] Compile as markdown file and upload to site
 
-econ 446 assignment 2
+[ ] econ 446 assignment 2
 
-econ 442 final assignment
+[ ] econ 442 final assignment
