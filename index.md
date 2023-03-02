@@ -1,4 +1,4 @@
-[Link to another page](projects/markdown-test.md)
+[Link to another page](projects/assoc-degree/assoc-degree.md)
 
 Nice to meet you, I'm 
 # KENNETH FOSTER
