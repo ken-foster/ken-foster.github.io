@@ -1,3 +1,5 @@
+[Link to another page](projects/markdown-test.md)
+
 Nice to meet you, I'm 
 # KENNETH FOSTER
 <img src="files/headshot.jpg" width=200 height=300>
