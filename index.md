@@ -18,7 +18,7 @@ I worked on a wide range of interesting and challenging projects in my master’
   - <a href="files/Textblob vs TensorFlow.pdf" download>[Report]</a>
 - Labor Economics: The Value of an Associate's Degree after the GFC
   - <a href="files/Change in the Value of the Associate's Degree - Presentation.pdf" download>[Presentation]</a>
-  - [Code](projects/assoc-degree/assoc-degree.md)
+  - \[[Code]\](projects/assoc-degree/assoc-degree.md)
 
 ## PROFESSIONAL EXPERIENCE
 ### Southern California Edison
