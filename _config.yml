@@ -1,6 +1,7 @@
 title: Kenneth Foster
 description: A place to show my projects and experience
 remote_theme: pages-themes/minimal@v0.2.0
+markdown: kramdown
 plugins:
 - jekyll-remote-theme
 
