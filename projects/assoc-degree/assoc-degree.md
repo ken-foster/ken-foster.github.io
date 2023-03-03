@@ -1,6 +1,4 @@
-```
-The following is adapted from a course project for ECON 424 - Income Inequality, at UCLA's Master of Quantitative Economics Program. Done in collaboration with 2 fellow students.
-```
+*The following is adapted from a course project for ECON 424 - Income Inequality, at UCLA's Master of Quantitative Economics Program. Done in collaboration with 2 fellow students.*
 
 # Introduction and Motivation
 Americans have a wide variety of choices to make concerning their career and education once they complete K-12. One avenue, the Associate's degree, has not been examined as often as higher degrees or abstaining from college altogether. While only a small minority choose the route of only an Associate's, or 2-year, degree, it is important to understand the wage premiums associated with it, so young persons can be better informed about their choices.
