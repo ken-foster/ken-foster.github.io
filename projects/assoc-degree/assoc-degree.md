@@ -1,6 +1,6 @@
 *The following is adapted from a course project for ECON 424 - Income Inequality, at UCLA's Master of Quantitative Economics Program. Done in collaboration with 2 fellow students.*
 
-# Introduction and Motivation
+# The Decreasing Relative Value of An Associate's Degree
 Americans have a wide variety of choices to make concerning their career and education once they complete K-12. One avenue, the Associate's degree, has not been examined as often as higher degrees or abstaining from college altogether. While only a small minority choose the route of only an Associate's, or 2-year, degree, it is important to understand the wage premiums associated with it, so young persons can be better informed about their choices.
 
 Using a sample of U.S. Census data, we examine descriptive statistics on income for 4 levels of educational attainment and apply regression methods to parse out the value of a secondary education relative to only receiving a High School Diploma/GED, with a focus on the unique position of holding an Associate's degree. We find that while other degrees have generally increased in value relative to only finishing High School, the relative value of an Associate's degree has decreased over time, particularly after the Great Financial Crisis in 2009.
