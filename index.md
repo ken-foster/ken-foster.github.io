@@ -13,12 +13,12 @@ If you're looking to fill a position (or just want to talk about the work you se
 ## ACADEMIC PROJECTS
 I worked on a wide range of interesting and challenging projects in my master’s program. Here’s some that I’m proud of:
 - **Master's Capstone Project**: Assistance Amounts in Rapid Re-Housing
-  - <a href="files/Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>[Report]</a>
+  - <a href="files/Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>Report</a>
 - Sentiment Analysis: TextBlob vs. TensorFlow
-  - <a href="files/Textblob vs TensorFlow.pdf" download>[Report]</a>
+  - <a href="files/Textblob vs TensorFlow.pdf" download>Report</a>
 - Labor Economics: The Value of an Associate's Degree after the GFC
-  - <a href="files/Change in the Value of the Associate's Degree - Presentation.pdf" download>[Presentation]</a>
-  - \[[Code]\](projects/assoc-degree/assoc-degree.md)
+  - <a href="files/Change in the Value of the Associate's Degree - Presentation.pdf" download>Presentation</a>
+  - [Code](projects/assoc-degree/assoc-degree.md)
 
 ## PROFESSIONAL EXPERIENCE
 ### Southern California Edison
