@@ -11,9 +11,9 @@ Starting with a relatively small sample of observations (for practical reasons o
 
 ***Sections:***
 - [Housekeeping](#housekeeping)
-- [Load Data](#Load-Data)
+- [Load Data](#load-data)
 - [TextBlob Benchmark](#textblob-benchmark)
-- [Neural Network Experiments](#Neural-Network-Experiments)
+- [Neural Network Experiments](#neural-network-experiments)
 - [Final Model](#final-model)
 
 > This notebook is an adaptation of a Machine Learning coursework project for the Master's in Quantitative Economics program at UCLA. The original report, done in collaboration with two other students, can downloaded as a .pdf file <a href="https://github.com/ken-foster/ken-foster.github.io/raw/main/files/Textblob%20vs%20TensorFlow.pdf" download>here</a>.<br><br>The final version of this script was run as a Kaggle Notebook, using their free P100 GPU accelerator. If you'd like to replicate it, I recommend creating a copy using Kaggle from [here](https://www.kaggle.com/code/kfoster150/textblob-vs-tensorflow-for-sentiment-analysis).
