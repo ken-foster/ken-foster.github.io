@@ -1,14 +1,24 @@
 title: Kenneth Foster
-markdown: kramdown
+author:
+  name: Kenneth Foster
+  email: kfoster150@g.ucla.edu
+  
+description: >
+  A portolio website for Kenneth Foster
+
+# Build Settings
 theme: minima
+
+markdown: kramdown
+
 plugins:
 - jekyll-remote-theme
 
-header_pages:
-  - index.md
-  
-social-links:
-  - { platform: linkedin, user_url: "https://www.linkedin.com/in/kennethbfoster/" }
-  - { platform: github, user_url: "https://github.com/ken-foster/" }
-  - { platform: kaggle, user_url: "https://www.kaggle.com/kfoster150" }
-  
+minima:
+  social-links:
+    - { platform: linkedin, user_url: "https://www.linkedin.com/in/kennethbfoster/" }
+    - { platform: github, user_url: "https://github.com/ken-foster/" }
+    - { platform: kaggle, user_url: "https://www.kaggle.com/kfoster150" }
+
+  header_pages:
+    - index.md
