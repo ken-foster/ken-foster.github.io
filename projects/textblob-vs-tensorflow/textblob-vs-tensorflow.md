@@ -392,7 +392,7 @@ model = tf.keras.Sequential([
 ```
 
 ## Training Experimental Models
-And now, using the 6 combinations of parameters and the model architecture previously defined, the models are trained. While the training is taking place, 3 objects are being saved to disk: 
+While the training is taking place, 3 objects are being saved to disk: 
 - The model with parameters
 - The weights that produced the highest validation accuracy (saved as a "checkpoint")
 - and the training history.
@@ -414,6 +414,7 @@ models
 [etc]
 ```
 
+And now, using the 6 combinations of parameters and the model architecture previously defined, the models are trained:
 
 ```python
 # Create filepath for model outputs
