@@ -1,7 +1,4 @@
 title: Kenneth Foster
-author:
-  name: Kenneth Foster
-  email: kfoster150@g.ucla.edu
   
 description: >
   A portolio website for Kenneth Foster
@@ -9,10 +6,10 @@ description: >
 # Build Settings
 theme: minima
 
-markdown: kramdown
+#markdown: kramdown
 
-plugins:
-- jekyll-remote-theme
+#plugins:
+#- jekyll-remote-theme
 
 minima:
   social-links:
