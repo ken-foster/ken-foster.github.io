@@ -1,4 +1,4 @@
-title: Kenneth Foster
+title: Home
   
 description: >
   A portolio website for Kenneth Foster
@@ -6,15 +6,10 @@ description: >
 # Build Settings
 theme: minima
 
-#markdown: kramdown
-
-#plugins:
-#- jekyll-remote-theme
-
-#minima:
-# social-links
+# Social-links
 linkedin_username: kfoster150
 github_username: ken-foster
 
+# Headers
 header_pages:
   - index.md
