@@ -10,11 +10,11 @@ For this comparison, I use a sample of Amazon product reviews, originally hosted
 Starting with a relatively small sample of observations (for practical reasons of computing time), I'll experiment with 6 different combinations of internal activation functions and optimizers. I record and compare the computational speed and prediction accuracy and use these metrics to identify a preferred specification. Finally, I'll run the best performing model one final time on the full dataset and evaluate its performance.
 
 ***Sections:***
-- [Housekeeping](#Housekeeping)
+- [Housekeeping](#housekeeping)
 - [Load Data](#Load-Data)
-- [TextBlob Benchmark](#TextBlob-Benchmark)
+- [TextBlob Benchmark](#textblob-benchmark)
 - [Neural Network Experiments](#Neural-Network-Experiments)
-- [Final Model](#Final-Model)
+- [Final Model](#final-model)
 
 > This notebook is an adaptation of a Machine Learning coursework project for the Master's in Quantitative Economics program at UCLA. The original report, done in collaboration with two other students, can downloaded as a .pdf file <a href="https://github.com/ken-foster/ken-foster.github.io/raw/main/files/Textblob%20vs%20TensorFlow.pdf" download>here</a>.<br><br>The final version of this script was run as a Kaggle Notebook, using their free P100 GPU accelerator. If you'd like to replicate it, I recommend creating a copy using Kaggle from [here](https://www.kaggle.com/code/kfoster150/textblob-vs-tensorflow-for-sentiment-analysis).
 
