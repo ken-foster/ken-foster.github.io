@@ -11,11 +11,10 @@ theme: minima
 #plugins:
 #- jekyll-remote-theme
 
-minima:
-  social-links:
-    - { platform: linkedin, user_url: "https://www.linkedin.com/in/kennethbfoster/" }
-    - { platform: github, user_url: "https://github.com/ken-foster/" }
-    - { platform: kaggle, user_url: "https://www.kaggle.com/kfoster150" }
+#minima:
+# social-links
+linkedin_username: kfoster150
+github_username: ken-foster
 
-  header_pages:
-    - index.md
+header_pages:
+  - index.md
