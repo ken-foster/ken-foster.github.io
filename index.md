@@ -23,8 +23,14 @@ I worked on a wide range of interesting and challenging projects in my master’
   
 
 ## PROFESSIONAL EXPERIENCE
+### Starz
+I currently work as a Testing & Optimization Analyst with **Starz**, mainly on its streaming platform. My day to day includes...
+- Maximizing engagement with the platform through UI/UX and key art image testing
+- Using statistical modeling to parse out how different nudges, like autoplay or the arrangement of content, affects user behavior
+- Programming automated data pipelines to deliver real time insights to stakeholders
+
 ### Southern California Edison
-Most recently, I interned with the Audit Analytics team at **Southern California Edison**, a public utility company serving 15 million customers. There, I…
+While studying for my Master's degree, I interned with the Audit Analytics team at **Southern California Edison**, a public utility company serving 15 million customers. There, I…
 - Revamped methods to detect trends in payments to outside vendors
 - Piloted automated process in Python for near-duplicate detection in invoice documentation, allowing for higher throughput in auditing and alleviating need for custom data parsing
 - Presented process results to direct supervisor and VP of Risk Management, concisely summarizing image and text processing methods, emphasizing effectiveness and efficiency
