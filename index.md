@@ -25,8 +25,8 @@ I worked on a wide range of interesting and challenging projects in my master’
 ## PROFESSIONAL EXPERIENCE
 ### Starz
 I currently work as a Testing & Optimization Analyst with **Starz**, mainly on its streaming platform. My day to day includes...
-- Maximizing engagement with the platform through UI/UX and key art image testing, using in-house tools and Optimizely.
-- Using statistical modeling and machine learning to parse out how different nudges, like autoplay or the arrangement of content, affects user behavior
+- Supporting operationalized A/B testing with our product development team. I act as the main point-of-contact for traffic projections, data QA, and in-depth interpretation of experiment results. 
+- Using experiment design, statistical modeling, and machine learning to parse out how different nudges, like autoplay or the arrangement of content, affect user behavior
 - Programming automated data pipelines to deliver real time insights to stakeholders through intuitive dashboards, using SQL, Python & Matillion on the backend and Tableau on the user side.
   
 ### Southern California Edison
