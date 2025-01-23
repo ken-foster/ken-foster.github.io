@@ -1,13 +1,13 @@
-title: Home
+title: Main
   
 description: >
   A portolio website for Kenneth Foster
 
 # Build Settings
-theme: minima
+theme: modernist
 
 # Social-links
-linkedin_username: kfoster150
+linkedin_username: kennethbfoster
 github_username: ken-foster
 
 # Headers
