@@ -1,12 +1,12 @@
-title: Kenneth B. Foster
+title: Home
   
 description: >
-  A data professional who is happy to help
+  A portfolio website for Kenneth Foster
 
 # Build Settings
-#theme: minima
+theme: minima
 #remote_theme: pages-themes/modernist@v0.2.0
-remote_theme: pages-themes/slate@v0.2.0
+#remote_theme: pages-themes/slate@v0.2.0
 #remote_theme: pages-themes/tactile@v0.2.0
 plugins:
 - jekyll-remote-theme
