@@ -9,14 +9,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A portfolio website for Kenneth Foster" />
 <meta property="og:description" content="A portfolio website for Kenneth Foster" />
-<link rel="canonical" href="http://localhost:4000/projects/billboard-dash/billboard-dash.html" />
-<meta property="og:url" content="http://localhost:4000/projects/billboard-dash/billboard-dash.html" />
+<link rel="canonical" href="http://localhost:4000/projects/death-metal-detector/death-metal-detector.html" />
+<meta property="og:url" content="http://localhost:4000/projects/death-metal-detector/death-metal-detector.html" />
 <meta property="og:site_name" content="Home" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Home" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"A portfolio website for Kenneth Foster","headline":"Home","url":"http://localhost:4000/projects/billboard-dash/billboard-dash.html"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"A portfolio website for Kenneth Foster","headline":"Home","url":"http://localhost:4000/projects/death-metal-detector/death-metal-detector.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Home" /></head>
 <body><header class="site-header" role="banner">
@@ -43,42 +43,63 @@
   </header>
 
   <div class="post-content">
-    <h2>The Billboard Hot 100 Artist Explorer</h2>
-<h1>A Tableau dashboard for music lovers</h1>
+    <style>
+.container-iframe {
+    height: 675px;
+}
 
-I love music, and I love learning the stories of how artists get their "big break", reach the peak of their popularity,
-and eventually release their last big hit.
+iframe {
+    transform: scale(0.5);
+    transform-origin: 0 0;
+    border-style: solid;
+    border-width: 12px;
+}
+</style>
 
-Using Billboard Hot 100 chart data from <a
-    href="https://www.kaggle.com/datasets/dhruvildave/billboard-the-hot-100-songs">Dhruvil Dave on Kaggle</a>, I created
-a Tableau Dashboard to learn what songs
-made my favorite musicians famous, from ABBA to ZZ Top, from 1958 to 2021 (the last update of this data extract).
 
+<h2>The Death Metal Detector</h2>
+<h1>Naive Bayes & Heavy Metal Culture</h1>
 
+I'm gonna go out on a limb and say you already know, basically, what Heavy Metal is. 
+If you're a fan, then you probably also have a good idea of what Death Metal is. If not...<br><br>
+
+<blockquote cite="https://en.wikipedia.org/wiki/Death_metal">
+Death metal is an extreme subgenre of heavy metal music. It typically employs heavily distorted and low-tuned guitars, played with techniques such as palm muting and tremolo picking...
+<b><u>The lyrical themes of death metal may include slasher film-style violence, political conflict, religion, nature, philosophy, true crime and science fiction.</u></b>
 
 <br><br>
-<div class='tableauPlaceholder' id='viz1745564568293' style='position: relative; border: solid; border-radius: 40px;'><noscript><a href='#'><img
-                alt='Billboard Hot 100 Artist Explorer '
-                src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Bi&#47;BillboardHot100-ArtistExplorer_17455436978690&#47;BillboardHot100ArtistExplorer&#47;1_rss.png'
-                style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'>
-        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-        <param name='embed_code_version' value='3' />
-        <param name='site_root' value='' />
-        <param name='name' value='BillboardHot100-ArtistExplorer_17455436978690&#47;BillboardHot100ArtistExplorer' />
-        <param name='tabs' value='no' />
-        <param name='toolbar' value='yes' />
-        <param name='static_image'
-            value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Bi&#47;BillboardHot100-ArtistExplorer_17455436978690&#47;BillboardHot100ArtistExplorer&#47;1.png' />
-        <param name='animate_transition' value='yes' />
-        <param name='display_static_image' value='yes' />
-        <param name='display_spinner' value='yes' />
-        <param name='display_overlay' value='yes' />
-        <param name='display_count' value='yes' />
-        <param name='language' value='en-US' />
-        <param name='filter' value='publish=yes' />
-    </object></div>
-<script
-    type='text/javascript'>                    var divElement = document.getElementById('viz1745564568293'); var vizElement = divElement.getElementsByTagName('object')[0]; if (divElement.offsetWidth > 800) { vizElement.style.width = '1080px'; vizElement.style.height = '1307px'; } else if (divElement.offsetWidth > 500) { vizElement.style.width = '1080px'; vizElement.style.height = '1307px'; } else { vizElement.style.width = '100%'; vizElement.style.height = '1427px'; } var scriptElement = document.createElement('script'); scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js'; vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+
+<a href="https://en.wikipedia.org/w/index.php?title=Death_metal&oldid=1285824176">Wikipedia, Death Metal</a>
+
+</blockquote>
+
+<br>
+
+Fans of the sub-genre know that Death Metal lyrics have a certain edge to them above and beyond what Ozzy Osbourne was doing in the 70s. 
+
+The animated comedy show Metalocalypse's entire premise was a satire on how Death Metal's subject matter can be controversial to the point of absurdity.
+
+The lead vocalist of the titular band would delight in hearing about horrific events, commenting with a grin, "That's pretty brutal".
+
+<br><br>
+
+I had a suspicion that Death Metal might use a unique and detectable "language" even when the subject of a song is something other than a horror movie synopsis.
+
+With that hypothesis in mind, I developed a text analysis model you can try out yourself below. <br><br>
+
+<div class="container-iframe">
+<iframe 
+src="https://flask-ui-136635714089.us-west1.run.app/"
+width="200%" height="1250" title="Death Metal Detector"
+></iframe> 
+</div>
+
+My model identifies classic Death Metal staples like Cannibal Corpse or Morbid Angel as having a +95% "brutality" score, as well as more recent acts like Archspire. Classic heavy metal like Ozzy or Iron Maiden usually scores in the 60-80% range. 
+Still more brutal than say, the Rolling Stones but less so than their extreme metal successors. Non-metal acts like Taylor Swift will barely move the needle.
+
+
+
+
 
   </div>
 

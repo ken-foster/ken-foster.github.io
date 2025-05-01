@@ -21,11 +21,16 @@ Some families who experience homelessness in Los Angeles receive financial assis
 - <a href="files/Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>Report</a> 
 
 <br>
+
 ### Machine Learning
 **Sentiment Analysis: TextBlob vs. TensorFlow**<br>
 These days, there are sentiment analysis tools that work right out of the box, but how well do they work? An analysis shows that a relatively simple neural net can outperform a tool like TextBlob, and require only a couple hours of training.
 - [Notebook](projects/textblob-vs-tensorflow/textblob-vs-tensorflow.md)
 - <a href="projects/textblob-vs-tensorflow/Textblob vs TensorFlow.pdf" download>Report</a>
+
+**Naive Bayes: Death Metal Detector**<br>
+Writing heavy metal lyrics? Use modern technology to ensure they are sufficienty brutal for your discerning audience. If for some odd reason you aren't a fan of metal, I'll show you how you can design your own genre detector that will practically run on a toaster using publicly available data.
+- [Tool](projects/death-metal-detector/death-metal-detector)
 
 <br>
 ### Dashboards & Data Visualization
