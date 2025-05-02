@@ -30,7 +30,7 @@ These days, there are sentiment analysis tools that work right out of the box, b
 
 **Naive Bayes: Death Metal Detector**<br>
 Writing heavy metal lyrics? Use modern technology to ensure they are sufficienty brutal for your discerning audience. If for some odd reason you aren't a fan of metal, I'll show you how you can design your own genre detector that will practically run on a toaster using publicly available data.
-- [Tool](projects/death-metal-detector/death-metal-detector)
+- [Tool](projects/death-metal-detector/intro.html)
 
 <br>
 ### Dashboards & Data Visualization
