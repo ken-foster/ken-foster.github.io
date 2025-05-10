@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Home | A portfolio website for Kenneth Foster</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Home" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A portfolio website for Kenneth Foster" />
+<meta property="og:description" content="A portfolio website for Kenneth Foster" />
+<link rel="canonical" href="http://localhost:4000/projects/death-metal-detector/pt2-training-the-model.html" />
+<meta property="og:url" content="http://localhost:4000/projects/death-metal-detector/pt2-training-the-model.html" />
+<meta property="og:site_name" content="Home" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Home" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A portfolio website for Kenneth Foster","headline":"Home","url":"http://localhost:4000/projects/death-metal-detector/pt2-training-the-model.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Home" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Home</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <p><a href="/projects/death-metal-detector/detector.html">« Back to Detector</a><br />
+<a href="/projects/death-metal-detector/pt1-getting-the-data.html">« Back to Pt 1</a><br />
+   <a href="/projects/death-metal-detector/pt3-the-fun-part.html">Pt 3 - The Fun Part »</a></p>
+
+<h2 id="pt-2---training-the-model">Pt 2 - Training The Model</h2>
+
+<p>In this section we will…</p>
+<ul>
+  <li>Load the data we transformed in Pt 1.</li>
+  <li>Re-arrange the data into a sparse matrix</li>
+  <li>Apply TF-IDF Transformation to the word counts</li>
+  <li>Train the Naive Bayes model</li>
+  <li>Save model objects to re-usable files</li>
+</ul>
+
+<h2 id="load-data">Load Data</h2>
+<p>If you’re starting from a brand new script like I am, you can manually set the file path where the sqlite database from Pt I is located on your computer.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">db_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s">"path/to/database.db"</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">model_data</code> table we created in Pt 1 contains about 19 million rows. It would be convenient to load the entire dataset into a <code class="language-plaintext highlighter-rouge">pandas.DataFrame</code> before converting it into a sparse matrix, but a table of that size would be extremely memory intensive.</p>
+
+<p>Instead of loading the entire dataset at once, we will use the <code class="language-plaintext highlighter-rouge">fetchmany()</code> method from the <code class="language-plaintext highlighter-rouge">sqlite3</code> package to load just 50,000 rows at a time into a <code class="language-plaintext highlighter-rouge">DataFrame</code>, then append that data into our sparse matrix.</p>
+
+<p>This code below should take 1-2 minutes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlite3</span> <span class="k">as</span> <span class="n">sql</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="n">sps</span>
+
+<span class="c1"># Connect to database
+</span><span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Set the number of rows for .fetchmany()
+</span><span class="n">cur</span><span class="p">.</span><span class="n">arraysize</span> <span class="o">=</span> <span class="mi">50_000</span>
+
+<span class="n">data_query</span> <span class="o">=</span> <span class="s">"""
+    select word_count, track_index, word_index
+    from model_data
+    where document_frequency between 0.001 and 0.6
+"""</span>
+
+<span class="c1"># Start a "timer" so we can observe how long the entire process took.
+</span><span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+
+<span class="c1"># Query the database
+</span><span class="n">cur</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">data_query</span><span class="p">)</span>
+
+<span class="c1"># Fetch the first 50k rows
+</span><span class="n">temp_result</span> <span class="o">=</span> <span class="n">cur</span><span class="p">.</span><span class="n">fetchmany</span><span class="p">()</span>
+
+<span class="c1"># Assign the data into a small dataframe for convenient 
+# transformation into a numpy array
+</span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">temp_result</span><span class="p">,</span> 
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">"word_count"</span><span class="p">,</span> <span class="s">"track_index"</span><span class="p">,</span> <span class="s">"word_index"</span><span class="p">]</span>
+<span class="p">).</span><span class="n">values</span><span class="p">.</span><span class="n">T</span>
+
+<span class="c1"># Fetch the second set of rows
+</span><span class="n">temp_result</span> <span class="o">=</span> <span class="n">cur</span><span class="p">.</span><span class="n">fetchmany</span><span class="p">()</span>
+
+<span class="c1"># While there are still rows being pulled by .fetchmany()
+# repeat the process, converting each set of rows to a
+# dataframe, then an array, then appending the new array
+# to the existing one.
+</span><span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_result</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">hstack</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">coordinates</span><span class="p">,</span>
+        <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">temp_result</span><span class="p">,</span> 
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">"word_count"</span><span class="p">,</span> <span class="s">"track_index"</span><span class="p">,</span> <span class="s">"word_index"</span><span class="p">]</span>
+        <span class="p">).</span><span class="n">values</span><span class="p">.</span><span class="n">T</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">temp_result</span> <span class="o">=</span> <span class="n">cur</span><span class="p">.</span><span class="n">fetchmany</span><span class="p">()</span>
+
+<span class="n">con</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Once the array is complete, convert to a sparse matrix
+# using scipy.csr_array()
+</span><span class="n">bow_csr</span> <span class="o">=</span> <span class="n">sps</span><span class="p">.</span><span class="n">csr_array</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">coordinates</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span>
+<span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Data Retrieval Time: </span><span class="si">{</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span><span class="si">:</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="si">}</span><span class="s"> seconds"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Observations: </span><span class="si">{</span><span class="n">bow_csr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Features: </span><span class="si">{</span><span class="n">bow_csr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Data Retrieval Time: 54 seconds
+Observations: 237662
+Features: 5000
+</code></pre></div></div>
+
+<p>Next, we pull indices showing us which songs are part of the test set (rather than the training set), and which we assigned as death metal.</p>
+
+<p>We also create a dictionary and blacklist for the words we’re using as features, which will be useful later for evaluating novel data (i.e. a brand new, user supplied song) through the model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test_indices_query</span> <span class="o">=</span> <span class="s">"""
+    select distinct track_index
+    from model_data
+    where is_test = 1
+"""</span>
+
+<span class="n">targ_indices_query</span> <span class="o">=</span> <span class="s">"""
+    select distinct track_index
+    from model_data
+    where term_match = 1
+"""</span>
+
+<span class="n">dict_query</span> <span class="o">=</span> <span class="s">"""
+    select distinct word, word_index 
+    from model_data
+    where document_frequency between 0.001 and 0.6
+"""</span>
+
+<span class="n">blacklist_query</span> <span class="o">=</span> <span class="s">"""
+    select distinct word 
+    from model_data
+    where document_frequency &lt; 0.001 or document_frequency &gt; 0.6
+"""</span>
+
+<span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Getting Test set indices"</span><span class="p">)</span>
+<span class="n">test_indices</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">test_indices_query</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">).</span><span class="n">values</span><span class="p">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Getting target indices ([death metal = TRUE])"</span><span class="p">)</span>
+<span class="n">targ_indices</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">targ_indices_query</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">).</span><span class="n">values</span><span class="p">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Getting word dictionary"</span><span class="p">)</span>
+<span class="n">dictionary</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">dict_query</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Getting word blacklist"</span><span class="p">)</span>
+<span class="n">blacklist</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">blacklist_query</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">con</span><span class="p">)</span>
+
+<span class="n">con</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Complete"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Getting Test set indices
+Getting target indices ([death metal = TRUE])
+Getting word dictionary
+Getting word blacklist
+Complete
+</code></pre></div></div>
+
+<p>Using the indices we just pulled, create <code class="language-plaintext highlighter-rouge">X_train</code>, <code class="language-plaintext highlighter-rouge">X_test</code>, <code class="language-plaintext highlighter-rouge">y_train</code>, and <code class="language-plaintext highlighter-rouge">y_test</code> sets, in the traditional <code class="language-plaintext highlighter-rouge">sklearn</code> format.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bow_csr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">test_indices</span><span class="p">])</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">bow_csr</span><span class="p">[</span><span class="n">train_indices</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">bow_csr</span><span class="p">[</span><span class="n">test_indices</span><span class="p">]</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="bp">True</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">targ_indices</span> <span class="k">else</span> <span class="bp">False</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bow_csr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">train_indices</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">test_indices</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>How many songs were <em>not</em> identified as death metal?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">baseline</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">targ_indices</span><span class="p">)</span><span class="o">/</span><span class="n">bow_csr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Non-Death Metal: </span><span class="si">{</span><span class="n">baseline</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Non-Death Metal: 95.9%
+</code></pre></div></div>
+
+<h2 id="tf-idf-transformation">TF-IDF Transformation</h2>
+<p>Rather than training on word counts, we will train on each word’s Term Frequency Inverse Document Frequency, or TF-IDF score. A full explanation on what it is and how to calculate is available <a href="https://www.geeksforgeeks.org/understanding-tf-idf-term-frequency-inverse-document-frequency/#">here</a>, but the basic idea is: TF-IDF is a score of a word’s <em>importance</em> to identifying a document. A word that’s very common in one document but rare in general will get a high TF-IDF score.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfTransformer</span>
+
+<span class="n">tfidf</span> <span class="o">=</span> <span class="n">TfidfTransformer</span><span class="p">()</span>
+<span class="n">tfidf</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="n">X_train_tfidf</span> <span class="o">=</span> <span class="n">tfidf</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train_tfidf</span><span class="p">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">X_train_tfidf</span><span class="p">.</span><span class="n">indices</span><span class="p">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">casting</span><span class="o">=</span><span class="s">"same_kind"</span><span class="p">)</span>
+<span class="n">X_train_tfidf</span><span class="p">.</span><span class="n">indptr</span> <span class="o">=</span> <span class="n">X_train_tfidf</span><span class="p">.</span><span class="n">indptr</span><span class="p">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">casting</span><span class="o">=</span><span class="s">"same_kind"</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"TF-IDF training complete"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TF-IDF training complete
+</code></pre></div></div>
+
+<h2 id="complement-naive-bayes">Complement Naive Bayes</h2>
+
+<p>Now that we’ve completely prepared our data, including transforming word counts to TF-IDF importance scores. Since we have an unbalanced data set (only about 4% of the data set is labeled ‘death metal’), we fit a <em>Complement</em> Naive Bayes model. To quote the documentation from scikit-learn,</p>
+
+<blockquote>
+  <p>[Complement Naive Bayes] is an adaptation of the standard multinomial naive Bayes algorithm that is particularly suited for imbalanced data sets. Specifically, CNB uses statistics from the complement of each class to compute the model’s weights.</p>
+
+  <p><a href="https://scikit-learn.org/stable/modules/naive_bayes.html#complement-naive-bayes">scikit-learn.org, 1.9.3. Complement Naive Bayes</a></p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">ComplementNB</span>
+<span class="kn">import</span> <span class="nn">sklearn.metrics</span> <span class="k">as</span> <span class="n">met</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">ComplementNB</span><span class="p">()</span>
+<span class="n">clf</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_tfidf</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># score it (and add to scores)
+</span><span class="n">X_test_tfidf</span> <span class="o">=</span> <span class="n">tfidf</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">y_prob_tfidf</span> <span class="o">=</span> <span class="n">clf</span><span class="p">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test_tfidf</span><span class="p">).</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Complement Naive Bayes training complete"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Complement Naive Bayes training complete
+</code></pre></div></div>
+
+<p>Before the final part, let’s save our work.  Some models require proprietary methods to be saved for later use, but <code class="language-plaintext highlighter-rouge">TfidfTransformer()</code> and <code class="language-plaintext highlighter-rouge">ComplementNB()</code> objects can be saved as <code class="language-plaintext highlighter-rouge">.pickle</code> files using python’s built-in <code class="language-plaintext highlighter-rouge">pickle</code> library. This way they can be used to make predictions in new scripts, on new data, without having to be re-trained.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Saving ComplementNB() object"</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"CNB.pickle"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Saving TfIdfTransformer() object"</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"TFIDF.pickle"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="n">tfidf</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Complete"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Saving ComplementNB() object
+Saving TfIdfTransformer() object
+Complete
+</code></pre></div></div>
+
+<p>In addition, we will also use the <code class="language-plaintext highlighter-rouge">to_csv()</code> method from the <code class="language-plaintext highlighter-rouge">pandas</code> library to save the term dictionary and blacklist.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"Saving dictionary.csv"</span><span class="p">)</span>
+<span class="n">dictionary</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">"dictionary.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Saving blacklist.csv"</span><span class="p">)</span>
+<span class="n">blacklist</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">"blacklist.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Complete"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Saving dictionary.csv
+Saving blacklist.csv
+Complete
+</code></pre></div></div>
+
+<p>See you in the final, and in my opinion the most fun part!</p>
+
+<p><a href="/projects/death-metal-detector/detector.html">« Back to Detector</a><br />
+<a href="/projects/death-metal-detector/pt1-getting-the-data.html">« Back to Pt 1</a><br />
+   <a href="/projects/death-metal-detector/pt3-the-fun-part.html">Pt 3 - The Fun Part »</a></p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Home</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Home</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ken-foster"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ken-foster</span></a></li><li><a href="https://www.linkedin.com/in/kennethbfoster"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">kennethbfoster</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A portfolio website for Kenneth Foster
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

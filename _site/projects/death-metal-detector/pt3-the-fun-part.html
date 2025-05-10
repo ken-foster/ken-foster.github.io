@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Home | A portfolio website for Kenneth Foster</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Home" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A portfolio website for Kenneth Foster" />
+<meta property="og:description" content="A portfolio website for Kenneth Foster" />
+<link rel="canonical" href="http://localhost:4000/projects/death-metal-detector/pt3-the-fun-part.html" />
+<meta property="og:url" content="http://localhost:4000/projects/death-metal-detector/pt3-the-fun-part.html" />
+<meta property="og:site_name" content="Home" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Home" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A portfolio website for Kenneth Foster","headline":"Home","url":"http://localhost:4000/projects/death-metal-detector/pt3-the-fun-part.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Home" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Home</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <p><a href="/projects/death-metal-detector/detector.html">« Back to Detector</a><br />
+<a href="/projects/death-metal-detector/pt1-getting-the-data.html">« Back to Pt 1</a><br />
+<a href="/projects/death-metal-detector/pt2-training-the-model.html">« Back to Pt 2</a><br /></p>
+
+<h1 id="pt-3---the-fun-part">Pt 3 - The Fun Part</h1>
+<p>In this section, we will…</p>
+<ul>
+  <li>Load the trained model objects we saved in Pt 2.</li>
+  <li>Write a function to
+    <ul>
+      <li>Transform lyrics into a format readable by the model</li>
+      <li>Estimate a score for the lyrics using the trained model</li>
+    </ul>
+  </li>
+  <li>Test the Function on 3 examples</li>
+</ul>
+
+<h2 id="but-first-a-confession">But first, a confession</h2>
+<p>I’ve been lying to you. The Death Metal Detector does nothing of the sort. It cannot reliably classify if lyrics came from a death metal song. Instead, given the subjective nature of music, and the spectrum of well and poorly fitting terms in the data, it uses the probability of death metal as a proxy for the song’s “metalness” or “brutality”.</p>
+
+<p>Which, if you’ll allow me to blast my own beat, I think is much more interesting. I can just google or ask ChatGPT if an artist is death metal. I trained a model to give me an <em>informed opinion</em>. It reflects my intuition and the cultural consensus, and yet it surprises me once in awhile. It reflects heavy metal culture earnestly, but in a way that can be kind of funny.</p>
+
+<h2 id="load-objects">Load Objects</h2>
+<p>For starters, let’s load the Complement Naive Bayes classifier, the TF-IDF scorer, and the term dictionary/blacklist.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">pd</span><span class="p">.</span><span class="n">set_option</span><span class="p">(</span><span class="s">'future.no_silent_downcasting'</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Loading objects..."</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"CNB.pickle"</span><span class="p">,</span> <span class="s">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">pickle</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"TFIDF.pickle"</span><span class="p">,</span> <span class="s">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">tfidf</span> <span class="o">=</span> <span class="n">pickle</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">dictionary</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"dictionary.csv"</span><span class="p">)</span>
+<span class="n">blacklist</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"blacklist.csv"</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Complete"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Loading objects...
+Complete
+</code></pre></div></div>
+
+<h2 id="coding-for-user-input">Coding for user input</h2>
+<p>For the final application, I want a user to be able to supply their own lyrics, and get back the score that the trained classifier comes up with. Given a string of text, long or short, the following steps must take place:</p>
+<ol>
+  <li>The text is ‘vectorized’, meaning it is transformed into the Bag-of-Words format.</li>
+  <li>Any terms that match the blacklist (document frequency &lt; 0.001 or &gt; 0.6 in the training set) are removed.</li>
+  <li>Remaining terms are <a href="https://github.com/rapidfuzz/RapidFuzz?tab=readme-ov-file#scorers">“fuzzy-matched”</a> matched against the dictionary</li>
+  <li>Term count data is transformed into a sparse array</li>
+  <li>Term counts are transformed into TF-IDF scores</li>
+  <li>The classifier returns a probability of ‘death metal’ based on the TF-IDF scores.</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="kn">from</span> <span class="nn">rapidfuzz.process</span> <span class="kn">import</span> <span class="n">cdist</span>
+<span class="kn">from</span> <span class="nn">rapidfuzz.distance</span> <span class="kn">import</span> <span class="n">Prefix</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_array</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span> 
+
+<span class="c1"># Function to ingest lyrics and output a score
+</span><span class="k">def</span> <span class="nf">death_metal_detector</span><span class="p">(</span><span class="n">lyrics</span><span class="p">):</span>
+
+    <span class="c1"># Step 1: transform lyrics into bag of words
+</span>    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">([</span><span class="n">lyrics</span><span class="p">])</span>
+    
+    <span class="n">Z_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span><span class="s">"word_count"</span><span class="p">:</span> <span class="n">Z</span><span class="p">.</span><span class="n">toarray</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+         <span class="s">"word"</span><span class="p">:</span> <span class="n">vectorizer</span><span class="p">.</span><span class="n">get_feature_names_out</span><span class="p">()}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Step 2: Remove blacklisted words
+</span>    <span class="n">feature_names</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="p">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
+    <span class="n">feature_names</span> <span class="o">=</span> <span class="n">feature_names</span><span class="p">[</span> <span class="n">np</span><span class="p">.</span><span class="n">isin</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">blacklist</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="p">]</span>
+
+    <span class="c1"># Step 3: Match remaining words to their stems from the dictionary
+</span>    <span class="n">output</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">feature_names</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">[</span><span class="s">"word"</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> 
+                   <span class="n">scorer</span><span class="o">=</span><span class="n">Prefix</span><span class="p">.</span><span class="n">normalized_similarity</span><span class="p">,</span>
+                   <span class="n">score_cutoff</span><span class="o">=</span><span class="mf">0.50001</span><span class="p">)</span>
+    
+    <span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s">"word"</span><span class="p">:</span> <span class="n">feature_names</span><span class="p">,</span>
+            <span class="s">"match"</span><span class="p">:</span> <span class="n">dictionary</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span> <span class="n">np</span><span class="p">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span> <span class="p">][</span><span class="s">"word"</span><span class="p">],</span>
+            <span class="s">"match_index"</span><span class="p">:</span> <span class="n">dictionary</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span> <span class="n">np</span><span class="p">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span> <span class="p">][</span><span class="s">"word_index"</span><span class="p">],</span>
+            <span class="s">"score"</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    
+    <span class="n">test</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">test</span><span class="p">[</span><span class="s">"score"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">]</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">test</span><span class="p">.</span><span class="n">merge</span><span class="p">(</span><span class="n">Z_dataframe</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s">"word"</span><span class="p">)</span>
+    
+    <span class="n">Z_bow</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">.</span><span class="n">merge</span><span class="p">(</span><span class="n">test</span><span class="p">[[</span><span class="s">"match"</span><span class="p">,</span> <span class="s">"word_count"</span><span class="p">]],</span> <span class="n">how</span><span class="o">=</span><span class="s">"left"</span><span class="p">,</span>
+                     <span class="n">left_on</span><span class="o">=</span><span class="s">"word"</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s">"match"</span><span class="p">).</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)[[</span><span class="s">"word_count"</span><span class="p">,</span> <span class="s">"word_index"</span><span class="p">]]</span>
+    
+    <span class="c1"># Step 4: Transform data to sparse array
+</span>    <span class="n">Z_bow</span><span class="p">[</span><span class="s">"word_count"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z_bow</span><span class="p">[</span><span class="s">"word_count"</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="s">"int"</span><span class="p">)</span>
+    <span class="n">Z_bow</span><span class="p">[</span><span class="s">"track_index"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="n">Z_coordinates</span> <span class="o">=</span> <span class="n">Z_bow</span><span class="p">[[</span><span class="s">"word_count"</span><span class="p">,</span> <span class="s">"track_index"</span><span class="p">,</span> <span class="s">"word_index"</span><span class="p">]].</span><span class="n">values</span><span class="p">.</span><span class="n">T</span>
+
+    <span class="n">Z_csr</span> <span class="o">=</span> <span class="n">csr_array</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">Z_coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">Z_coordinates</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Z_coordinates</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Step 5: Transform term counts to TF-IDF scores
+</span>    <span class="n">Z_tfidf</span> <span class="o">=</span> <span class="n">tfidf</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Z_csr</span><span class="p">)</span>
+
+    <span class="c1"># Step 6: Estimate probability of Death Metal as a proxy for lyrical "brutality"
+</span>    
+    <span class="c1"># Note: Adjustment to final score based on word count and distinct word count
+</span>    <span class="n">w</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lyrics</span><span class="p">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="n">dw</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">)</span>
+        
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">emath</span><span class="p">.</span><span class="n">logn</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">dw</span><span class="o">/</span><span class="n">w</span>
+    <span class="n">score_adjustment</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">([</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">score_adjustment</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="n">score_adjustment</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">y_prob_tfidf</span> <span class="o">=</span> <span class="n">clf</span><span class="p">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">Z_tfidf</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">score_adjustment</span>
+    
+    <span class="c1"># Complete!
+</span>    <span class="k">return</span><span class="p">(</span><span class="n">y_prob_tfidf</span><span class="p">)</span>
+    
+</code></pre></div></div>
+
+<h2 id="testing-the-function">Testing the Function</h2>
+
+<p>Now that the function is complete, let’s give it 3 different songs.</p>
+<ul>
+  <li><em>Morbid Angel - Immortal Rites</em>, a definitive death metal song</li>
+  <li><em>Iron Maiden - Fear of the Dark</em>, a more “mainstream” heavy metal example</li>
+  <li><em>Taylor Swift - Cruel Summer</em>, a pop song with no ties to metal</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Morbid Angel - Immortal Rites
+</span><span class="n">immortal_rites</span> <span class="o">=</span> <span class="s">"""
+Gathered for a sacred rite
+Subconscious minds allied
+Call upon immortals
+Call upon the oldest ones to intercede
+Rid us of our human waste
+Cleanse our earthly lives
+Make us one with darkness
+Enlighten us to your ways
+From churning worlds of mindlessness
+Come screams unheard before
+Haunting voices fill the room
+Their source remaining undefined
+Shadows cast from faceless beings
+Lost for centuries
+Lords of death, I summon you
+Reside within our brains
+Cast your spells upon our lives
+That we may receive
+The gift of immortality
+Bestowed on those who seek you
+Gathered for a sacred rite
+Subconscious minds allied
+Call upon immortals
+Call upon the oldest ones to intercede
+Rid us of our human waste
+Cleanse our earthly lives
+Make us one with darkness
+Enlighten us to your ways
+Lords of death, I summon you
+Reside within our brains
+Cast your spells upon our lives
+That we may receive
+The gift of immortality
+Bestowed on those who seek you
+Now immortal
+"""</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Iron Maiden - Fear Of The Dark
+</span><span class="n">fear_of_the_dark</span> <span class="o">=</span> <span class="s">"""
+I am a man who walks alone
+And when I'm walking a dark road
+At night or strolling through the park
+When the light begins to change
+I sometimes feel a little strange
+A little anxious when it's dark
+Fear of the dark, fear of the dark
+I have a constant fear that something's always near
+Fear of the dark, fear of the dark
+I have a phobia that someone's always there
+Have you run your fingers down the wall
+And have you felt your neck skin crawl
+When you're searching for the light?
+Sometimes when you're scared to take a look
+At the corner of the room
+You've sensed that something's watching you
+Fear of the dark, fear of the dark
+I have a constant fear that something's always near
+Fear of the dark, fear of the dark
+I have a phobia that someone's always there
+Have you ever been alone at night
+Thought you heard footsteps behind
+And turned around and no one's there?
+And as you quicken up your pace
+You find it hard to look again
+Because you're sure there's someone there
+Fear of the dark, fear of the dark
+I have a constant fear that something's always near
+Fear of the dark, fear of the dark
+I have a phobia that someone's always there
+Fear of the dark, fear of the dark
+Fear of the dark, fear of the dark
+Fear of the dark, fear of the dark
+Fear of the dark, fear of the dark
+Watching horror films the night before
+Debating witches and folklores
+The unknown troubles on your mind
+Maybe your mind is playing tricks
+You sense, and suddenly eyes fix
+On dancing shadows from behind
+Fear of the dark, fear of the dark
+I have a constant fear that something's always near
+Fear of the dark, fear of the dark
+I have a phobia that someone's always there
+Fear of the dark, fear of the dark
+I have a constant fear that somethings always near
+Fear of the dark, fear of the dark
+I have a phobia that someone's always there
+When I'm walking a dark road
+I am a man who walks alone
+"""</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Taylor Swift - Cruel Summer
+</span><span class="n">cruel_summer</span> <span class="o">=</span> <span class="s">"""
+Fever dream high in the quiet of the night
+You know that I caught it (oh yeah, you're right, I want it)
+Bad, bad boy, shiny toy with a price
+You know that I bought it (oh yeah, you're right, I want it)
+Killing me slow, out the window
+I'm always waiting for you to be waiting below
+Devils roll the dice, angels roll their eyes
+What doesn't kill me makes me want you more
+And it's new, the shape of your body
+It's blue, the feeling I've got
+And it's ooh, whoa-oh
+It's a cruel summer
+"It's cool, " that's what I tell 'em
+No rules in breakable heaven
+But ooh, whoa-oh
+It's a cruel summer with you (yeah, yeah)
+Hang your head low in the glow of the vending machine
+I'm not dying (oh yeah, you're right, I want it)
+You say that we'll just screw it up in these trying times
+We're not trying (oh yeah, you're right, I want it)
+So cut the headlights, summer's a knife
+I'm always waiting for you just to cut to the bone
+Devils roll the dice, angels roll their eyes
+And if I bleed, you'll be the last to know, oh
+It's new, the shape of your body
+It's blue, the feeling I've got
+And it's ooh, whoa-oh
+It's a cruel summer
+"It's cool, " that's what I tell 'em
+No rules in breakable heaven
+But ooh, whoa-oh
+It's a cruel summer with you
+I'm drunk in the back of the car
+And I cried like a baby coming home from the bar (oh)
+Said, "I'm fine, " but it wasn't true
+I don't wanna keep secrets just to keep you
+And I snuck in through the garden gate
+Every night that summer, just to seal my fate (oh)
+And I screamed, "For whatever it's worth
+I love you, ain't that the worst thing you ever heard?"
+He looks up, grinnin' like a devil
+It's new, the shape of your body
+It's blue, the feeling I've got
+And it's ooh, whoa-oh
+It's a cruel summer
+"It's cool, " that's what I tell 'em
+No rules in breakable heaven
+But ooh, whoa-oh
+It's a cruel summer with you
+I'm drunk in the back of the car
+And I cried like a baby coming home from the bar (oh)
+Said, "I'm fine, " but it wasn't true
+I don't wanna keep secrets just to keep you
+And I snuck in through the garden gate
+Every night that summer, just to seal my fate (oh)
+And I screamed, "For whatever it's worth
+I love you, ain't that the worst thing you ever heard?"
+(Yeah, yeah, yeah, yeah)
+"""</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lyrics_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"Morbid Angel - Immortal Rites"</span><span class="p">:</span> <span class="n">immortal_rites</span><span class="p">,</span>
+    <span class="s">"Iron Maiden - Fear of the Dark"</span><span class="p">:</span> <span class="n">fear_of_the_dark</span><span class="p">,</span>
+    <span class="s">"Taylor Swift - Cruel Summer"</span><span class="p">:</span> <span class="n">cruel_summer</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">lyrics</span> <span class="ow">in</span> <span class="n">lyrics_dict</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="n">score</span> <span class="o">=</span> <span class="n">death_metal_detector</span><span class="p">(</span><span class="n">lyrics</span><span class="p">)</span>
+    
+    <span class="k">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">score</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">% BRUTAL"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">""</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Morbid Angel - Immortal Rites
+95.8% BRUTAL
+
+Iron Maiden - Fear of the Dark
+71.2% BRUTAL
+
+Taylor Swift - Cruel Summer
+1.7% BRUTAL
+</code></pre></div></div>
+
+<h2 id="a-reflection-of-heavy-metal-culture">A Reflection of Heavy Metal Culture</h2>
+
+<p>While genre is subjective, the amount of sources that categorize an artist as death metal increase the closer they fit a general consensus. That leads to the most intense and “brutal” lyrics being consistently associated with death metal, and as an artist moves down the spectrum to more accessible lyrics, the probability of that label goes down to 0.</p>
+
+<p>The end result is a scale of “brutality” as understood by metal fans. Death metal staple <em>Morbid Angel</em> scores very high in this sense. <em>Iron Maiden</em>’s more accessible metal gets a C grade with their moderately dark themes. And, sorry Swifties, Taylor’s songs might be brutal towards your emotions, but for this purpose she’s barely on the radar.</p>
+
+<p>If this was interesting, I encourage you to try it yourself, maybe with a music genre that you have a lot of expertise in.</p>
+
+<p><a href="/projects/death-metal-detector/detector.html">« Back to Detector</a><br />
+<a href="/projects/death-metal-detector/pt1-getting-the-data.html">« Back to Pt 1</a><br />
+<a href="/projects/death-metal-detector/pt2-training-the-model.html">« Back to Pt 2</a><br /></p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Home</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Home</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ken-foster"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ken-foster</span></a></li><li><a href="https://www.linkedin.com/in/kennethbfoster"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">kennethbfoster</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A portfolio website for Kenneth Foster
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,7 +1,15 @@
-# Pt 2 - Training The Model
+---
+layout: page
+title:
+---
+[<< Back to Detector](detector.md)<br>
+[<< Back to Pt 1](pt1-getting-the-data.md)<br>
+&nbsp;&nbsp;&nbsp;[Pt 3 - The Fun Part >>](pt3-the-fun-part.md)
+
+## Pt 2 - Training The Model
 
 In this section we will...
-- Load the data we transformed in Pt I.
+- Load the data we transformed in Pt 1.
 - Re-arrange the data into a sparse matrix
 - Apply TF-IDF Transformation to the word counts
 - Train the Naive Bayes model
@@ -12,10 +20,10 @@ If you're starting from a brand new script like I am, you can manually set the f
 
 
 ```python
-db_path = r"C:\\Users\\foste\\Desktop\\Projects\\minimal delistyle\\datasets\\kfoster150\\million-song-dataset-metadata-lyrics-terms\\versions\\1\\millionsong.db"
+db_path = r"path/to/database.db"
 ```
 
-The `model_data` table we created in Pt I contains about 19 million rows. It would be convenient to load the entire dataset into a `pandas.DataFrame` before converting it into a sparse matrix, but a table of that size would be extremely memory intensive. 
+The `model_data` table we created in Pt 1 contains about 19 million rows. It would be convenient to load the entire dataset into a `pandas.DataFrame` before converting it into a sparse matrix, but a table of that size would be extremely memory intensive. 
 
 Instead of loading the entire dataset at once, we will use the `fetchmany()` method from the `sqlite3` package to load just 50,000 rows at a time into a `DataFrame`, then append that data into our sparse matrix. 
 
@@ -263,4 +271,8 @@ print("Complete")
     Complete
     
 
-See you in the final part: [link goes hurr]
+See you in the final, and in my opinion the most fun part! 
+
+[<< Back to Detector](detector.md)<br>
+[<< Back to Pt 1](pt1-getting-the-data.md)<br>
+&nbsp;&nbsp;&nbsp;[Pt 3 - The Fun Part >>](pt3-the-fun-part.md)

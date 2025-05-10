@@ -1,15 +1,23 @@
+---
+layout: page
+title:
+---
+[<< Back to Detector](detector.md)<br>
+[<< Back to Pt 1](pt1-getting-the-data.md)<br>
+[<< Back to Pt 2](pt2-training-the-model.md)<br>
+
 # Pt 3 - The Fun Part
 In this section, we will...
-- Load the trained model objects we saved in Pt II.
+- Load the trained model objects we saved in Pt 2.
 - Write a function to
     - Transform lyrics into a format readable by the model
     - Estimate a score for the lyrics using the trained model
 - Test the Function on 3 examples
 
 ## But first, a confession
-I've been lying to you. The Death Metal Detector does nothing of the sort. It cannot reliably classify if lyrics came from a death metal song. Instead, given the subjective nature of music, the spectrum of well and poorly fitting terms in the data, it uses the probability of death metal as a proxy for the song's "metalness" or "brutality".
+I've been lying to you. The Death Metal Detector does nothing of the sort. It cannot reliably classify if lyrics came from a death metal song. Instead, given the subjective nature of music, and the spectrum of well and poorly fitting terms in the data, it uses the probability of death metal as a proxy for the song's "metalness" or "brutality".
 
-Which, if you'll allow me to blast my own beat, I think is much more interesting. I can just google or ask ChatGPT if an artist is death metal. I trained a model to give me an informed *opinion*. It reflects my intuition and culture consensus, and yet surprises me once in awhile. It reflects heavy metal culture earnestly, and yet in a way that can be kind of funny.
+Which, if you'll allow me to blast my own beat, I think is much more interesting. I can just google or ask ChatGPT if an artist is death metal. I trained a model to give me an *informed opinion*. It reflects my intuition and the cultural consensus, and yet it surprises me once in awhile. It reflects heavy metal culture earnestly, but in a way that can be kind of funny.
 
 ## Load Objects
 For starters, let's load the Complement Naive Bayes classifier, the TF-IDF scorer, and the term dictionary/blacklist.
@@ -327,8 +335,12 @@ for name, lyrics in lyrics_dict.items():
 
 ## A Reflection of Heavy Metal Culture
 
-While genre is subjective, the amount of sources that categorize an artist as death metal increase the closer they fit a general consensus. That leads to the most intense and "brutal" lyrics being consistently associated with death metal, and as an artist moves down the spectrum to more accessible lyrics, the probability of getting labeled "death metal" goes down until it is essentially 0.
+While genre is subjective, the amount of sources that categorize an artist as death metal increase the closer they fit a general consensus. That leads to the most intense and "brutal" lyrics being consistently associated with death metal, and as an artist moves down the spectrum to more accessible lyrics, the probability of that label goes down to 0.
 
 The end result is a scale of "brutality" as understood by metal fans. Death metal staple *Morbid Angel* scores very high in this sense. *Iron Maiden*'s more accessible metal gets a C grade with their moderately dark themes. And, sorry Swifties, Taylor's songs might be brutal towards your emotions, but for this purpose she's barely on the radar.
 
 If this was interesting, I encourage you to try it yourself, maybe with a music genre that you have a lot of expertise in.
+
+[<< Back to Detector](detector.md)<br>
+[<< Back to Pt 1](pt1-getting-the-data.md)<br>
+[<< Back to Pt 2](pt2-training-the-model.md)<br>

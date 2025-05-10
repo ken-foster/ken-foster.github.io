@@ -1,4 +1,12 @@
-# Pt 1 - Getting The Data
+---
+layout: page
+title:
+---
+
+[<< Back to Detector](detector.md)<br>
+&nbsp;&nbsp;&nbsp;[Pt 2 - Training The Model >>](pt2-training-the-model.md)
+
+## Pt 1 - Getting The Data
 In this section we will...
 - Download sqlite database from Kaggle
 - Preview / Explain the data
@@ -52,7 +60,7 @@ lyrics_sample = pd.read_sql("select * from lyrics limit 100", con=conn)
 conn.close()
 ```
 
-### `songs`
+### table: songs
 Contains the song title and artist name, and unique ID's for each of these features
 
 
@@ -129,7 +137,7 @@ songs_sample.sample(5)
 
 
 
-### `artist_term`
+### table: artist_term
 Contains terms associated with the unique ID of the artist
 
 
@@ -194,7 +202,7 @@ artist_term_sample.sample(5)
 
 
 
-### `lyrics`
+### table: lyrics
 For each track and word found in that track, a count of that word is listed. This is known as a 'Bag-of-Words' format. There is also a binary `is_test` column to split tracks into a train and test set.
 
 **Notes:**
@@ -326,7 +334,7 @@ conn.close()
     table created
     
 
-### `document_frequency`
+### table: document_frequency
 
 
 ```python
@@ -400,14 +408,11 @@ df_sample.sample(5)
 
 
 ## Identifying Death Metal
-### (Or artists that are close enough)
-The next part is to identify which songs are a positive match for the outcome we care about.
+For each artist, there is a set of terms associated with them. Things like 'rock', 'jazz', 'new york' and more. But, they aren't always accurate, and not just because music genres can be subjective. Some artists have nothing to do with death metal, or even rock music in general, but still have the "death metal" term. The dataset used to have confidence scores for each term to filter for cases like these, but that no longer exists anywhere I could find.
 
-For each artist, there is a set of terms associated with them. Things like 'rock', 'jazz', 'new york' and more. However, they aren't always totally accurate, and I'm not just talking about the subjectivity of music genres. Some artists have nothing to do with death metal, or even rock music in general, but still received the "death metal" term. The original dataset contained confidence scores for each term that could be used to filter for cases like these, but unfortunately that no longer exists anywhere I could find.
+To work around this, we create a `term_scores` table, with a `term_match` column, which equals 1 for artists where the average ratio of terms containing "death" or "metal" is at least 20%, and 0 if not. This leaves in some artists that may not purely fit the subgenre, but tends to eliminate artists with no actual affiliation with metal.
 
-To work around this, we create a `term_scores` table, with a `term_match` column, which equals 1 for artists where the average ratio of terms containing "death" or "metal" is at least 20%, and 0 if not. This does leave in some bands that may not purely fit the subgenre, but tends to eliminates artists with no actual affiliation with metal despite having the tag.
-
-If you want to experiment and try to find another genre that the model can detect, the script below will adapt to different terms. Just change the strings in the `terms` list to whatever you want, like `['reggae']` or `['los angeles', 'punk']`. Otherwise, you can just run it as is.
+If you want to experiment and try to find another genre that the model can detect, the script below will adapt to different terms. Just change the strings in the `terms` list to whatever you want, like `['reggae']` or `['los angeles', 'punk']`. Otherwise, just run it as is.
 
 
 ```python
@@ -492,7 +497,7 @@ conn.close()
     table created
     
 
-`term_scores`
+### table: term_scores
 
 
 ```python
@@ -582,14 +587,13 @@ term_scores_sample.sample(5)
 
 
 ### Preparing Data For Sparse Matrix
-
-The last SQL table we will create is a `model_data` table. This will translate each track, word, the word count for that track, and label (death metal or not) into numerical indices. This way, the data can be transformed into a `sparse_matrix`, which can be processed much more efficiently than a dense table when most of the features (words) have no value.
+The last table will translate each track, word, the word count for that track, and label (death metal or not) into numerical indices. This way, the data can be transformed into a `sparse_matrix`, which can be processed much more efficiently than a dense table when most of the features (words) have no value.
 
 **Sparse Matrix diagram**<br>
 ![Sparse Matrix Diagram](\assets\pictures\Sparse-Matrix-Array-Representation1.png)
 > Source: [GeeksForGeeks.org, Sparse Matrix and its representations](https://www.geeksforgeeks.org/sparse-matrix-representation/)
 
-Imagine a giant spreadsheet, with many rows and columns, but where meaningful values are scattered randomly in only a small ratio of the cells, and the rest are zeros. You can save a lot of memory by condensing that into a list of relevant coordinates and their associated value rather than working with the entire table. Most songs will only have a few words associated with them, so we'll create a sparse matrix for the word counts.
+Imagine a giant spreadsheet, with many rows and columns, but where meaningful values are scattered randomly in a small ratio of cells, and the rest are zeros. Most songs will only have a few words associated with them, so we can save a lot of memory by condensing that into a list of relevant coordinates and their value rather than working with an entire table.
 
 
 ```python
@@ -646,7 +650,7 @@ except sqlite3.OperationalError as e:
 conn.close()
 ```
 
-### `model_data`
+### model_data
 
 
 ```python
@@ -753,7 +757,7 @@ model_data_sample.sample(5)
 
 
 
-### End of Pt I.
+### End of Pt 1.
 
 **Original & Aggregated Data Relationships**
 
@@ -762,3 +766,8 @@ model_data_sample.sample(5)
 </div>
 
 Now that the SQL database is complete, in the next section we will create the sparse matrix and train the model.
+
+[<< Back to Detector](detector.md)<br>
+&nbsp;&nbsp;&nbsp;[Pt 2 - Training The Model >>](pt2-training-the-model.md)<br>
+
+

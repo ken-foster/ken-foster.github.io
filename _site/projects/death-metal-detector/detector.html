@@ -9,14 +9,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A portfolio website for Kenneth Foster" />
 <meta property="og:description" content="A portfolio website for Kenneth Foster" />
-<link rel="canonical" href="http://localhost:4000/projects/death-metal-detector/intro.html" />
-<meta property="og:url" content="http://localhost:4000/projects/death-metal-detector/intro.html" />
+<link rel="canonical" href="http://localhost:4000/projects/death-metal-detector/detector.html" />
+<meta property="og:url" content="http://localhost:4000/projects/death-metal-detector/detector.html" />
 <meta property="og:site_name" content="Home" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Home" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"A portfolio website for Kenneth Foster","headline":"Home","url":"http://localhost:4000/projects/death-metal-detector/intro.html"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"A portfolio website for Kenneth Foster","headline":"Home","url":"http://localhost:4000/projects/death-metal-detector/detector.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Home" /></head>
 <body><header class="site-header" role="banner">
@@ -56,50 +56,33 @@ iframe {
 }
 </style>
 
-
 <h2>The Death Metal Detector</h2>
-<h1>Naive Bayes & Heavy Metal Culture</h1>
 
 <blockquote cite="https://en.wikipedia.org/wiki/Death_metal">
 Death metal is an extreme subgenre of heavy metal music...played with techniques such as...deep growling vocals; aggressive, powerful drumming, featuring double kick and blast beat techniques... 
 <b><u>The lyrical themes of death metal may include slasher film-style violence, political conflict, religion, nature, philosophy, true crime and science fiction.</u></b>
 
-<br><br>
+<br />
 
-<a href="https://en.wikipedia.org/w/index.php?title=Death_metal&oldid=1285824176">Wikipedia, Death Metal</a>
+<a href="https://en.wikipedia.org/w/index.php?title=Death_metal&amp;oldid=1285824176">Wikipedia, Death Metal</a>
 
 </blockquote>
 
-<br>
+<p>Death Metal lyrics have a certain edge to them above and beyond what Ozzy Osbourne was doing in the 70s. I suspected that Death Metal might use a unique and detectable “language” even when the subject of a song is something other than a horror movie synopsis.</p>
 
-Death Metal lyrics have a certain edge to them above and beyond what Ozzy Osbourne was doing in the 70s. 
-I suspected that Death Metal might use a unique and detectable "language" even when the subject of a song is something 
-other than a horror movie synopsis.<br><br>
+<p>Based on this hypothesis, I built The Death Metal Detector. It’s a Complement Naive Bayes machine learning model, 
+trained on TF-IDF transformed data on over 200,000 songs. This “scores” the brutality of the lyrics you provide on a scale from 0% to 100%</p>
 
-Based on this hypothesis, I built The Death Metal Detector. It's a Complement Naive Bayes machine learning model, 
-trained on TF-IDF transformed data on over 200,000 songs. This "scores" the lyrics you give it on a scale from 0% to 100%.<br><br>
+<p>Try it out below! Copy/paste lyrics from your favorite songs, metal or not, or come up with your own gutteral incantations and see how <b><i>brutal</i></b> they are!</p>
 
-Technically, this score represents the model's confidence in identifying the song as Death Metal. However, I prefer to call 
-it the song's "brutality" score, based on a common adjective that fans use to describe their favorite Death Metal songs. <br><br>
-
-It also reflects how the model treats songs Death Metal's relatives. Genre staples like Cannibal Corpse or 
-Morbid Angel usually +95% confidence. Classic heavy metal like Ozzy or Iron Maiden, brutal in its own right but not to the same degree,
-usually scores in the 60-80% range. Non-metal acts like Taylor Swift will barely move the needle.
-
-<br><br>
-
-Try it out below! Copy/paste lyrics from your favorite songs, or come up with your own gutteral incantations and see if they're worthy!<br><br>
+<p>When you’re done, read about <a href="/projects/death-metal-detector/pt1-getting-the-data.html">how it was made.</a></p>
 
 <div class="container-iframe">
-<iframe 
-src="https://flask-ui-136635714089.us-west1.run.app/"
-width="200%" height="1250" title="Death Metal Detector"
-></iframe> 
+<iframe src="https://flask-ui-136635714089.us-west1.run.app/" width="200%" height="1250" title="Death Metal Detector"></iframe> 
 </div>
 
-
-
-
+<p><a href="/">« Home</a><br />
+   <a href="/projects/death-metal-detector/pt1-getting-the-data.html">Tutorial, Pt 1 - Getting The Data »</a></p>
 
   </div>
 

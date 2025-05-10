@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Home | A portfolio website for Kenneth Foster</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Home" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A portfolio website for Kenneth Foster" />
+<meta property="og:description" content="A portfolio website for Kenneth Foster" />
+<link rel="canonical" href="http://localhost:4000/projects/death-metal-detector/pt1-getting-the-data.html" />
+<meta property="og:url" content="http://localhost:4000/projects/death-metal-detector/pt1-getting-the-data.html" />
+<meta property="og:site_name" content="Home" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Home" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A portfolio website for Kenneth Foster","headline":"Home","url":"http://localhost:4000/projects/death-metal-detector/pt1-getting-the-data.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Home" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Home</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <p><a href="/projects/death-metal-detector/detector.html">« Back to Detector</a><br />
+   <a href="/projects/death-metal-detector/pt2-training-the-model.html">Pt 2 - Training The Model »</a></p>
+
+<h2 id="pt-1---getting-the-data">Pt 1 - Getting The Data</h2>
+<p>In this section we will…</p>
+<ul>
+  <li>Download sqlite database from Kaggle</li>
+  <li>Preview / Explain the data</li>
+  <li>Create &amp; save aggregations</li>
+</ul>
+
+<h2 id="the-million-song-dataset">The Million Song Dataset</h2>
+<p>For this project, we use the <a href="http://millionsongdataset.com/">Million Song Dataset</a>, first published in 2011. Because the dataset is not actively being maintained (some features over time have disappeared from the website), I uploaded a publicly available backup of the features I’ll be using to Kaggle. The code below will download the data from there.</p>
+
+<p>There’s a lot more data available than what I’m using here, so if this project whets your appetite for machine learning on music data you should check out the link.</p>
+
+<h2 id="download-the-data">Download the Data</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Import libraries
+</span><span class="kn">import</span> <span class="nn">kagglehub</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Set kaggle download folder to the current working directly.
+</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"KAGGLEHUB_CACHE"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+<span class="c1"># Download from Kaggle
+</span><span class="n">download_path</span> <span class="o">=</span> <span class="n">kagglehub</span><span class="p">.</span><span class="n">dataset_download</span><span class="p">(</span><span class="s">"kfoster150/million-song-dataset-metadata-lyrics-terms"</span><span class="p">)</span>
+<span class="n">db_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">download_path</span><span class="p">,</span> <span class="s">'millionsong.db'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Downloading from https://www.kaggle.com/api/v1/datasets/download/kfoster150/million-song-dataset-metadata-lyrics-terms?dataset_version_number=1...
+
+
+100%|███████████████████████████████████████████████████████████████████████████████| 243M/243M [02:24&lt;00:00, 1.76MB/s]
+
+Extracting files...
+</code></pre></div></div>
+
+<h2 id="original-data">Original Data</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+
+<span class="n">songs_sample</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s">"select * from songs limit 100"</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+<span class="n">artist_term_sample</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s">"select * from artist_term limit 100"</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+<span class="n">lyrics_sample</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s">"select * from lyrics limit 100"</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+
+<span class="n">conn</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="table-songs">table: songs</h3>
+<p>Contains the song title and artist name, and unique ID’s for each of these features</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">songs_sample</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>artist_id</th>
+      <th>artist_name</th>
+      <th>track_id</th>
+      <th>title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>37</th>
+      <td>AR3TG9F1187B98E0D3</td>
+      <td>Wishbone Ash</td>
+      <td>TRMMMKN12903CB44A5</td>
+      <td>Wonderful Stash</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>AR0G47L1187B98CC6D</td>
+      <td>Frank Chacksfield</td>
+      <td>TRMMMPU128F42B134D</td>
+      <td>Cockleshell Heroes</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>ARQJYSJ1187FB4CDF3</td>
+      <td>Voyage</td>
+      <td>TRMMMYP128F429A5E4</td>
+      <td>Trancesequence</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>AR73P6T1187B994881</td>
+      <td>Diablo Swing Orchestra</td>
+      <td>TRMMWQU12903CF447F</td>
+      <td>Lucy Fears the Morning Star</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>ARNFVG61187FB3EB6C</td>
+      <td>JOHN DOE</td>
+      <td>TRMMWRC128F93647F7</td>
+      <td>Suffer</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="table-artist_term">table: artist_term</h3>
+<p>Contains terms associated with the unique ID of the artist</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">artist_term_sample</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>artist_id</th>
+      <th>term</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>64</th>
+      <td>AR006821187FB5192B</td>
+      <td>bass</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>AR002UA1187B9A637D</td>
+      <td>garage</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>AR002UA1187B9A637D</td>
+      <td>english</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>AR002UA1187B9A637D</td>
+      <td>garage rock revival</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>AR006821187FB5192B</td>
+      <td>rock</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="table-lyrics">table: lyrics</h3>
+<p>For each track and word found in that track, a count of that word is listed. This is known as a ‘Bag-of-Words’ format. There is also a binary <code class="language-plaintext highlighter-rouge">is_test</code> column to split tracks into a train and test set.</p>
+
+<p><strong>Notes:</strong></p>
+<ul>
+  <li>These are word “stems”, not the exact word from the lyrics. For example, ‘cry’, ‘cried’, and ‘crying’ are all mapped to the same stem: ‘cri’.</li>
+  <li>Only the 5,000 most common word stems across the entire corpus were used.</li>
+</ul>
+
+<p>More info is available on the webpage for <a href="http://millionsongdataset.com/musixmatch/">MSD/MusixMatch</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lyrics_sample</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>track_id</th>
+      <th>word</th>
+      <th>count</th>
+      <th>is_test</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>66</th>
+      <td>TRAAAAV128F421A322</td>
+      <td>devast</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>TRAAAAV128F421A322</td>
+      <td>ignor</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>TRAAAAV128F421A322</td>
+      <td>are</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>TRAAAAV128F421A322</td>
+      <td>someon</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>TRAAAAV128F421A322</td>
+      <td>element</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>Original Data Relationship Diagram</strong></p>
+
+<div>
+<img src="\assets\pictures\original-data-relationships.png" width="400" />
+</div>
+
+<h2 id="new-aggregations">New Aggregations</h2>
+<h3 id="the-document-frequency-table">The Document Frequency Table</h3>
+<p>We can filter out words that are either too common or too rare to be useful. For this we create a <code class="language-plaintext highlighter-rouge">document_frequency</code> table from the <code class="language-plaintext highlighter-rouge">lyrics</code> table, to reference what percentage of documents (i.e. songs) contain the word. It can take a minute to calculate, but will be much faster to do it now in SQL rather than filter it out later through other means.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># document frequency
+</span><span class="n">df_query</span> <span class="o">=</span> <span class="s">"""
+create table document_frequency as
+with corpus_size as (
+	select 1.0*count(distinct track_id) as corpus_size
+	from lyrics
+)
+
+, document_count as (
+	select word, count(distinct track_id) as document_count
+	from lyrics
+	group by word
+)
+
+select 
+	word, document_count, 
+	1.0*document_count/(select corpus_size from corpus_size) as document_frequency
+from document_count
+"""</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+<span class="n">curs</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Skip creating the table if it already exists.
+</span><span class="k">try</span><span class="p">:</span>
+    <span class="n">curs</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">df_query</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"table created"</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">OperationalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"skipping creation"</span><span class="p">)</span>
+
+<span class="n">conn</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>table created
+</code></pre></div></div>
+
+<h3 id="table-document_frequency">table: document_frequency</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+<span class="n">df_sample</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s">"select * from document_frequency limit 100"</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+<span class="n">conn</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">df_sample</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>word</th>
+      <th>document_count</th>
+      <th>document_frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>43</th>
+      <td>acabar</td>
+      <td>282</td>
+      <td>0.001187</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>ador</td>
+      <td>1411</td>
+      <td>0.005937</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>adam</td>
+      <td>444</td>
+      <td>0.001868</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>ago</td>
+      <td>3628</td>
+      <td>0.015265</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>abandon</td>
+      <td>1023</td>
+      <td>0.004304</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="identifying-death-metal">Identifying Death Metal</h2>
+<p>For each artist, there is a set of terms associated with them. Things like ‘rock’, ‘jazz’, ‘new york’ and more. But, they aren’t always accurate, and not just because music genres can be subjective. Some artists have nothing to do with death metal, or even rock music in general, but still have the “death metal” term. The dataset used to have confidence scores for each term to filter for cases like these, but that no longer exists anywhere I could find.</p>
+
+<p>To work around this, we create a <code class="language-plaintext highlighter-rouge">term_scores</code> table, with a <code class="language-plaintext highlighter-rouge">term_match</code> column, which equals 1 for artists where the average ratio of terms containing “death” or “metal” is at least 20%, and 0 if not. This leaves in some artists that may not purely fit the subgenre, but tends to eliminate artists with no actual affiliation with metal.</p>
+
+<p>If you want to experiment and try to find another genre that the model can detect, the script below will adapt to different terms. Just change the strings in the <code class="language-plaintext highlighter-rouge">terms</code> list to whatever you want, like <code class="language-plaintext highlighter-rouge">['reggae']</code> or <code class="language-plaintext highlighter-rouge">['los angeles', 'punk']</code>. Otherwise, just run it as is.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Optional: Change terms
+</span><span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="s">'death'</span><span class="p">,</span> <span class="s">'metal'</span><span class="p">]</span>
+
+<span class="c1"># Optional: Change threshold
+</span><span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+<span class="c1"># Add wildcards to terms
+</span><span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="s">'%'</span> <span class="o">+</span> <span class="n">term</span> <span class="o">+</span> <span class="s">'%'</span> <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">]</span>
+
+<span class="c1"># Assemble query
+</span><span class="n">query_a</span> <span class="o">=</span> <span class="s">"""
+create table term_scores as
+with total_term_count as (
+	select artist_id, count(TERM)*1.0 as total_terms
+	from artist_term
+	group by artist_id
+)
+
+, selected_term_count as (
+	select artist_id, count(term)*1.0 as selected_terms
+	from artist_term"""</span>
+
+<span class="c1"># Programmatically create the WHERE clause
+# to adapt to however many terms are supplied
+</span><span class="n">query_b</span> <span class="o">=</span> <span class="s">"""
+    where term like ?"""</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">query_b</span> <span class="o">+=</span> <span class="s">"""
+    or term like ?"""</span>
+
+
+<span class="n">query_c</span> <span class="o">=</span> <span class="s">"""
+    group by artist_id
+)
+
+, merges as (
+	select
+            a.artist_id,
+            total_terms, 
+            ifnull(selected_terms, 0.0) as selected_terms
+
+	from total_term_count a
+	
+	left join selected_term_count b
+	on a.artist_id = b.artist_id
+)
+
+select *,
+    selected_terms/total_terms/? as term_score,
+	case 
+        when selected_terms/total_terms/? &gt; ? then 1
+    else 0
+	end as term_match
+from merges
+"""</span>
+
+<span class="c1"># concatenate the query parts
+</span><span class="n">term_query</span> <span class="o">=</span> <span class="n">query_a</span> <span class="o">+</span> <span class="n">query_b</span> <span class="o">+</span> <span class="n">query_c</span>
+
+<span class="c1"># Assemble parameters
+</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="nb">tuple</span><span class="p">(</span><span class="n">terms</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">),</span> <span class="n">threshold</span><span class="p">,</span> <span class="p">)</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+<span class="n">curs</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Skip creating the table if it already exists.
+</span><span class="k">try</span><span class="p">:</span>
+    <span class="n">curs</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">term_query</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"table created"</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">OperationalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"skipping creation"</span><span class="p">)</span>
+
+<span class="n">conn</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>table created
+</code></pre></div></div>
+
+<h3 id="table-term_scores">table: term_scores</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+<span class="n">term_scores_sample</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s">"select * from term_scores limit 100"</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+<span class="n">conn</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">term_scores_sample</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>artist_id</th>
+      <th>total_terms</th>
+      <th>selected_terms</th>
+      <th>term_score</th>
+      <th>term_match</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>32</th>
+      <td>AR013KN1187FB5AC4C</td>
+      <td>13.0</td>
+      <td>0.0</td>
+      <td>0.0000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>AR01SXQ119B86698DC</td>
+      <td>16.0</td>
+      <td>10.0</td>
+      <td>0.3125</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>AR035X11187B996BB9</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>AR00GVV11C8A415A54</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>0.0000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>AR00RBU1187B9B3F1F</td>
+      <td>34.0</td>
+      <td>0.0</td>
+      <td>0.0000</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="preparing-data-for-sparse-matrix">Preparing Data For Sparse Matrix</h3>
+<p>The last table will translate each track, word, the word count for that track, and label (death metal or not) into numerical indices. This way, the data can be transformed into a <code class="language-plaintext highlighter-rouge">sparse_matrix</code>, which can be processed much more efficiently than a dense table when most of the features (words) have no value.</p>
+
+<p><strong>Sparse Matrix diagram</strong><br />
+<img src="\assets\pictures\Sparse-Matrix-Array-Representation1.png" alt="Sparse Matrix Diagram" /></p>
+<blockquote>
+  <p>Source: <a href="https://www.geeksforgeeks.org/sparse-matrix-representation/">GeeksForGeeks.org, Sparse Matrix and its representations</a></p>
+</blockquote>
+
+<p>Imagine a giant spreadsheet, with many rows and columns, but where meaningful values are scattered randomly in a small ratio of cells, and the rest are zeros. Most songs will only have a few words associated with them, so we can save a lot of memory by condensing that into a list of relevant coordinates and their value rather than working with an entire table.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create model_data table
+</span><span class="n">model_query</span> <span class="o">=</span> <span class="s">"""
+create table model_data as
+with track_index as (
+	select track_id,
+	row_number() over (order by track_id) - 1 as track_index
+	from (select distinct track_id from lyrics)
+)
+
+, word_index as (
+	select word,
+	row_number() over (order by word) - 1 as word_index
+	from (select distinct word from lyrics)
+)
+
+select 
+	ly.track_id, track_index, is_test, term_match,
+	ly.word, word_index,
+	cast("count" as integer) as word_count,
+	document_frequency
+from lyrics ly
+
+join songs so
+on ly.track_id = so.track_id
+
+join term_scores dms 
+on so.artist_id = dms.artist_id
+
+join track_index ti
+on ly.track_id = ti.track_id
+
+join word_index wi
+on ly.word = wi.word
+
+join document_frequency df
+on ly.word = df.word
+
+order by track_index, word_index
+"""</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+<span class="n">curs</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Skip creating the table if it already exists.
+</span><span class="k">try</span><span class="p">:</span>
+    <span class="n">curs</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">model_query</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">OperationalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"skipping creation"</span><span class="p">)</span>
+
+<span class="n">conn</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="model_data">model_data</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+<span class="n">model_data_sample</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s">"select * from model_data limit 500"</span><span class="p">,</span> <span class="n">con</span><span class="o">=</span><span class="n">conn</span><span class="p">)</span>
+<span class="n">conn</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model_data_sample</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>track_id</th>
+      <th>track_index</th>
+      <th>is_test</th>
+      <th>term_match</th>
+      <th>word</th>
+      <th>word_index</th>
+      <th>word_count</th>
+      <th>document_frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>103</th>
+      <td>TRAAABD128F429CF47</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>la</td>
+      <td>2367</td>
+      <td>7</td>
+      <td>0.101564</td>
+    </tr>
+    <tr>
+      <th>350</th>
+      <td>TRAAAEW128F42930C0</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>melt</td>
+      <td>2663</td>
+      <td>1</td>
+      <td>0.008647</td>
+    </tr>
+    <tr>
+      <th>194</th>
+      <td>TRAAAED128E0783FAB</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>is</td>
+      <td>2200</td>
+      <td>3</td>
+      <td>0.646254</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>TRAAABD128F429CF47</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>need</td>
+      <td>2877</td>
+      <td>3</td>
+      <td>0.163800</td>
+    </tr>
+    <tr>
+      <th>453</th>
+      <td>TRAAAFD128F92F423A</td>
+      <td>5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>tire</td>
+      <td>4412</td>
+      <td>1</td>
+      <td>0.029386</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="end-of-pt-1">End of Pt 1.</h3>
+
+<p><strong>Original &amp; Aggregated Data Relationships</strong></p>
+
+<div>
+<img src="\assets\pictures\all-data-relationships.png" />
+</div>
+
+<p>Now that the SQL database is complete, in the next section we will create the sparse matrix and train the model.</p>
+
+<p><a href="/projects/death-metal-detector/detector.html">« Back to Detector</a><br />
+   <a href="/projects/death-metal-detector/pt2-training-the-model.html">Pt 2 - Training The Model »</a><br /></p>
+
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Home</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Home</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/ken-foster"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">ken-foster</span></a></li><li><a href="https://www.linkedin.com/in/kennethbfoster"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">kennethbfoster</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>A portfolio website for Kenneth Foster
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
