@@ -31,12 +31,6 @@ These days, there are sentiment analysis tools that work right out of the box, b
 - [Notebook](projects/textblob-vs-tensorflow/textblob-vs-tensorflow.md)
 - <a href="projects/textblob-vs-tensorflow/Textblob vs TensorFlow.pdf" download>Report</a>
 
-**The Death Metal Detector**<br>
-*Naive Bayes / TF-IDF*<br>
-Writing a heavy metal song? Use modern technology to ensure it's sufficienty brutal for your discerning audience. If for some odd reason you aren't a fan of metal, I'll show you how you to design your own genre detector that will practically run on a toaster using publicly available data.
-- [Death Metal Detector](projects/death-metal-detector/detector.md)
-- [Notebook](projects/death-metal-detector/pt1-getting-the-data.md)
-
 <br>
 ### Dashboards & Data Visualization
 **Tableau: The Billboard Hot 100 Artist Explorer**<br>
@@ -45,6 +39,13 @@ I love music that is twice as old as I am, and love learning about the musicians
 
 
 <!--
+**The Death Metal Detector**<br>
+*Naive Bayes / TF-IDF*<br>
+Writing a heavy metal song? Use modern technology to ensure it's sufficienty brutal for your discerning audience. If for some odd reason you aren't a fan of metal, I'll show you how you to design your own genre detector that will practically run on a toaster using publicly available data.
+- [Death Metal Detector](projects/death-metal-detector/detector.md)
+- [Notebook](projects/death-metal-detector/pt1-getting-the-data.md)
+
+
 ### Independent
 **NCES Data Repository**<br>
 The National Center for Education Statistics publishes a wealth of data on education each year, but the tables are nowhere near as convenient or accessible as say, the Census Bureau API. I created a convenient, tabular repository on [Kaggle](https://www.kaggle.com/datasets/kfoster150/avg-cost-of-undergrad-college-by-state) on the average cost of college.
