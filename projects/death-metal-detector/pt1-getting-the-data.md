@@ -288,7 +288,7 @@ lyrics_sample.sample(5)
 **Original Data Relationship Diagram**
 
 <div>
-<img src="\assets\pictures\original-data-relationships.png" width="400"/>
+<img src="original-data-relationships.png" width="400"/>
 </div>
 
 ## New Aggregations
@@ -590,7 +590,7 @@ term_scores_sample.sample(5)
 The last table will translate each track, word, the word count for that track, and label (death metal or not) into numerical indices. This way, the data can be transformed into a `sparse_matrix`, which can be processed much more efficiently than a dense table when most of the features (words) have no value.
 
 **Sparse Matrix diagram**<br>
-![Sparse Matrix Diagram](\assets\pictures\Sparse-Matrix-Array-Representation1.png)
+![Sparse Matrix Diagram](Sparse-Matrix-Array-Representation1.png)
 > Source: [GeeksForGeeks.org, Sparse Matrix and its representations](https://www.geeksforgeeks.org/sparse-matrix-representation/)
 
 Imagine a giant spreadsheet, with many rows and columns, but where meaningful values are scattered randomly in a small ratio of cells, and the rest are zeros. Most songs will only have a few words associated with them, so we can save a lot of memory by condensing that into a list of relevant coordinates and their value rather than working with an entire table.
@@ -762,7 +762,7 @@ model_data_sample.sample(5)
 **Original & Aggregated Data Relationships**
 
 <div>
-<img src="\assets\pictures\all-data-relationships.png"/>
+<img src="all-data-relationships.png"/>
 </div>
 
 Now that the SQL database is complete, in the next section we will create the sparse matrix and train the model.
