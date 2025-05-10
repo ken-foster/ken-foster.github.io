@@ -11,26 +11,36 @@ You can find me on [LinkedIn](https://www.linkedin.com/in/kennethbfoster/)
 
 ## Portfolio
 ### Econometrics
-**Labor Economics: The Value of an Associate's Degree after the GFC**<br>
+**The Value of an Associate's Degree after the GFC**<br>
+*Regression Analysis*<br>
 Before the Great Financial Crash of the late 2000s, an Associate's degree was a viable, low-cost option with a measurable wage premium. Read this analysis to see how that changed.
 - [Notebook](projects/assoc-degree/assoc-degree.md)
 - <a href="files/Change in the Value of the Associate's Degree - Presentation.pdf" download>Presentation</a>
 
-**Master's Capstone Project: Assistance Amounts in Rapid Re-Housing**<br>
+**Master's Capstone Project: Assistance Amounts in Rapid Re-Housing**
+*Regression Analysis / Exploratory Data Analysis*<br>
 Some families who experience homelessness in Los Angeles receive financial assistance with paying rent. Some organizations spend more per family than others, and for my master's capstone project I modeled how they decide how much to spend.
 - <a href="files/Master's Capstone - Rental Assistance Amounts in Rapid Re-Housing.pdf" download>Report</a> 
 
 <br>
+
 ### Machine Learning
 **Sentiment Analysis: TextBlob vs. TensorFlow**<br>
+*Sequential Neural Network / Text Embedding Model*<br>
 These days, there are sentiment analysis tools that work right out of the box, but how well do they work? An analysis shows that a relatively simple neural net can outperform a tool like TextBlob, and require only a couple hours of training.
 - [Notebook](projects/textblob-vs-tensorflow/textblob-vs-tensorflow.md)
 - <a href="projects/textblob-vs-tensorflow/Textblob vs TensorFlow.pdf" download>Report</a>
 
+**The Death Metal Detector**<br>
+*Naive Bayes / TF-IDF*<br>
+Writing a heavy metal song? Use modern technology to ensure it's sufficienty brutal for your discerning audience. If for some odd reason you aren't a fan of metal, I'll show you how you to design your own genre detector that will practically run on a toaster using publicly available data.
+- [Death Metal Detector](projects/death-metal-detector/detector.md)
+- [Notebook](projects/death-metal-detector/pt1-getting-the-data.md)
+
 <br>
 ### Dashboards & Data Visualization
 **Tableau: The Billboard Hot 100 Artist Explorer**<br>
-The Billboard Hot 100 is a staple of popular music in the U.S.A. Here, you can explore chart performance of your favorite artists going all the way back to the chart's inception in 1958. Currently updated through 2021.
+I love music that is twice as old as I am, and love learning about the musicians that created it. So, I created a dashboard to give me a quick outline of when an artist had their first hit and when they hit peak popularity using data from the Billboard Hot 100 chart. Currently updated through 2021.
 - <a href="projects/billboard-dash/billboard-dash.html">Dashboard</a>
 
 
