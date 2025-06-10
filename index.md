@@ -34,7 +34,7 @@ These days, there are sentiment analysis tools that work right out of the box, b
 <br>
 ### Dashboards & Data Visualization
 **The Billboard Hot 100 Artist Explorer**<br>
-*Tableau / SQL*
+*Tableau / SQL*<br>
 I love music that is twice as old as I am, and love learning about the musicians that created it. So, I created a dashboard to give me a quick outline of when an artist had their first hit and when they hit peak popularity using data from the Billboard Hot 100 chart. Currently updated through 2021.
 - <a href="projects/billboard-dash/billboard-dash.html">Dashboard</a>
 
